@@ -11,6 +11,7 @@ Projeto realizado na formação de Spring Boot da Alura.
 - JPA/Hibernate
 - MySQL/ Flyway
 
+
 ### Objetivos
 
 - Desenvolvimento de uma API Rest
