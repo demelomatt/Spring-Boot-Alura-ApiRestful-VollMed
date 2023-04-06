@@ -12,12 +12,14 @@ Projeto realizado na formação de Spring Boot da Alura.
 - MySQL/ Flyway
 
 
+
 ### Objetivos
 
 - Desenvolvimento de uma API Rest
 - CRUD (Create, Read, Update e Delete)
 - Validações
 - Paginação e ordenação
+
 
 
 ### Tópicos abordados durante a construção dessa api:
