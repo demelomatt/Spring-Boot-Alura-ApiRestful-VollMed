@@ -16,5 +16,4 @@ public record MedicoDto(
         @NotBlank @Pattern(regexp = "\\d{4,6}") String crm,
         @NotNull Especialidade especialidade,
         @NotNull @Valid EnderecoDto endereco) {
-
 }
