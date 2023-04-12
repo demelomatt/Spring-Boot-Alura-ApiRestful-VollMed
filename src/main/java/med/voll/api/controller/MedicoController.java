@@ -1,26 +1,25 @@
 package med.voll.api.controller;
 
-import com.electronwill.nightconfig.core.conversion.Path;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
-import med.voll.api.dto.medico.MedicoDetalheDto;
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import med.voll.api.dto.medico.MedicoDetalheDto;
 import med.voll.api.dto.medico.MedicoAtualizarDto;
 import med.voll.api.dto.medico.MedicoDto;
 import med.voll.api.dto.medico.MedicoListDto;
 import med.voll.api.model.medico.Medico;
 import med.voll.api.repository.MedicoRepository;
-import org.springframework.web.util.UriBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 
 @RestController
 @RequestMapping("/medicos")
@@ -56,8 +55,12 @@ public class MedicoController {
     @Transactional
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         Medico medico = this.repository.getReferenceById(id);
-        medico.excluir();
-        return ResponseEntity.noContent().build();
+        if (medico.isAtivo()) {
+            medico.excluir();
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+
     }
 
     @GetMapping("/{id}")
