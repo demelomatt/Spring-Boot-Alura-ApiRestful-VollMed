@@ -14,7 +14,7 @@ import med.voll.api.dto.paciente.PacienteDetalheDto;
 import med.voll.api.dto.paciente.PacienteAtualizarDto;
 import med.voll.api.dto.paciente.PacienteDto;
 import med.voll.api.dto.paciente.PacienteListDto;
-import med.voll.api.model.paciente.Paciente;
+import med.voll.api.domain.paciente.Paciente;
 import med.voll.api.repository.PacienteRepository;
 
 
@@ -38,7 +38,6 @@ public class PacienteController {
 
     @GetMapping
     public ResponseEntity<Page<PacienteListDto>> listar(Pageable paginacao) {
-
         Page<PacienteListDto> paciente =  this.repository.findAllByAtivoTrue(paginacao).map(PacienteListDto::new);
         return ResponseEntity.ok(paciente);
     }

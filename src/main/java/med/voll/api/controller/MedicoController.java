@@ -17,7 +17,7 @@ import med.voll.api.dto.medico.MedicoDetalheDto;
 import med.voll.api.dto.medico.MedicoAtualizarDto;
 import med.voll.api.dto.medico.MedicoDto;
 import med.voll.api.dto.medico.MedicoListDto;
-import med.voll.api.model.medico.Medico;
+import med.voll.api.domain.medico.Medico;
 import med.voll.api.repository.MedicoRepository;
 
 

@@ -1,4 +1,4 @@
-package med.voll.api.model.paciente;
+package med.voll.api.domain.paciente;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import med.voll.api.dto.paciente.PacienteAtualizarDto;
 import med.voll.api.dto.paciente.PacienteDto;
-import med.voll.api.model.util.Endereco;
+import med.voll.api.domain.util.Endereco;
 
 @Getter
 @NoArgsConstructor
