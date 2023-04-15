@@ -1,4 +1,4 @@
-package med.voll.api.service.usuario;
+package med.voll.api.service.autenticacao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

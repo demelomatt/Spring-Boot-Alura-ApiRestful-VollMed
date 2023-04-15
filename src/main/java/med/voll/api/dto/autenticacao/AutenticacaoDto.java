@@ -1,4 +1,4 @@
-package med.voll.api.dto.usuario;
+package med.voll.api.dto.autenticacao;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

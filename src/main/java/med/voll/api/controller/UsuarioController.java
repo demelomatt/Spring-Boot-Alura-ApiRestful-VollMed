@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import med.voll.api.domain.usuario.Usuario;
-import med.voll.api.dto.usuario.AutenticacaoDto;
+import med.voll.api.dto.autenticacao.AutenticacaoDto;
 import med.voll.api.dto.usuario.UsuarioDetalheDto;
 import med.voll.api.service.usuario.UsuarioService;
 

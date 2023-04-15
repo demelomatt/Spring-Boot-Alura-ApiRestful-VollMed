@@ -10,7 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import med.voll.api.dto.usuario.AutenticacaoDto;
+import med.voll.api.dto.autenticacao.AutenticacaoDto;
 
 
 @Getter

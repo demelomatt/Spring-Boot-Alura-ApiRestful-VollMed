@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import med.voll.api.domain.usuario.Usuario;
-import med.voll.api.dto.usuario.AutenticacaoDto;
+import med.voll.api.dto.autenticacao.AutenticacaoDto;
 import med.voll.api.repository.UsuarioRepository;
 
 @Service
