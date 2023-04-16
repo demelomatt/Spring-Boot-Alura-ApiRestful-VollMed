@@ -1,9 +1,9 @@
 package med.voll.api.controller;
 
+import java.net.URI;
+
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-
-import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,11 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import med.voll.api.domain.medico.Medico;
 import med.voll.api.dto.medico.MedicoDetalheDto;
 import med.voll.api.dto.medico.MedicoAtualizarDto;
 import med.voll.api.dto.medico.MedicoDto;
 import med.voll.api.dto.medico.MedicoListDto;
-import med.voll.api.domain.medico.Medico;
+
 import med.voll.api.repository.MedicoRepository;
 
 

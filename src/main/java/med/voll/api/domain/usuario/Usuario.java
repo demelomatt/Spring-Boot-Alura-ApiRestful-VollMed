@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import med.voll.api.dto.autenticacao.AutenticacaoDto;
 
-
 @Getter
 @Setter
 @NoArgsConstructor

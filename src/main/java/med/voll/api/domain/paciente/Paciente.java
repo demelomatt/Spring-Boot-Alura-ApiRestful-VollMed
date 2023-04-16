@@ -6,9 +6,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import med.voll.api.domain.util.Endereco;
 import med.voll.api.dto.paciente.PacienteAtualizarDto;
 import med.voll.api.dto.paciente.PacienteDto;
-import med.voll.api.domain.util.Endereco;
+
 
 @Getter
 @NoArgsConstructor

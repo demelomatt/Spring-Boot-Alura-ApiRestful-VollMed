@@ -2,8 +2,6 @@ package med.voll.api.controller;
 
 import jakarta.validation.Valid;
 
-
-import med.voll.api.dto.autenticacao.TokenDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import med.voll.api.domain.usuario.Usuario;
 import med.voll.api.dto.autenticacao.AutenticacaoDto;
+import med.voll.api.dto.autenticacao.TokenDto;
 import med.voll.api.service.usuario.UsuarioService;
 import med.voll.api.service.autenticacao.TokenService;
+
 
 @RestController
 @RequestMapping("/auth")

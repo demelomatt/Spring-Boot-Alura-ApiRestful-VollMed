@@ -1,5 +1,7 @@
 package med.voll.api.controller;
 
+import java.net.URI;
+
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -10,15 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import med.voll.api.domain.paciente.Paciente;
 import med.voll.api.dto.paciente.PacienteDetalheDto;
 import med.voll.api.dto.paciente.PacienteAtualizarDto;
 import med.voll.api.dto.paciente.PacienteDto;
 import med.voll.api.dto.paciente.PacienteListDto;
-import med.voll.api.domain.paciente.Paciente;
 import med.voll.api.repository.PacienteRepository;
-
-
-import java.net.URI;
 
 @RestController
 @RequestMapping("/pacientes")

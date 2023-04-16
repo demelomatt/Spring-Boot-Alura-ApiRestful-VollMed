@@ -23,11 +23,11 @@ import med.voll.api.service.usuario.UsuarioService;
 public class UsuarioController {
 
     @Autowired
-    UsuarioService service;
+    UsuarioService usuarioService;
 
     @PostMapping
     public ResponseEntity<UsuarioDetalheDto> cadastrar(@RequestBody @Valid AutenticacaoDto dados, UriComponentsBuilder uriBuilder) {
-        Usuario usuario = service.registerUser(dados);
+        Usuario usuario = usuarioService.registerUser(dados);
         URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
         return ResponseEntity.created(uri).body(new UsuarioDetalheDto(usuario));
     }
