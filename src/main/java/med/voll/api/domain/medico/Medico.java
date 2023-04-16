@@ -1,4 +1,4 @@
-package med.voll.api.model.medico;
+package med.voll.api.domain.medico;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,9 +6,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import med.voll.api.domain.util.Endereco;
 import med.voll.api.dto.medico.MedicoAtualizarDto;
 import med.voll.api.dto.medico.MedicoDto;
-import med.voll.api.model.util.Endereco;
+
 
 @Getter
 @NoArgsConstructor

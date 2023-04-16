@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 import med.voll.api.dto.endereco.EnderecoDto;
-import med.voll.api.model.medico.Especialidade;
+import med.voll.api.domain.medico.Especialidade;
 
 public record MedicoDto(
         @NotBlank String nome,
@@ -16,5 +16,4 @@ public record MedicoDto(
         @NotBlank @Pattern(regexp = "\\d{4,6}") String crm,
         @NotNull Especialidade especialidade,
         @NotNull @Valid EnderecoDto endereco) {
-
 }
