@@ -24,8 +24,8 @@ import med.voll.api.exception.dto.ArgumentNotValidDto;
 public class ErrorHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Void> handleEntityNotFound() {
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<String> handleEntityNotFound(EntityNotFoundException exception) {
+        return ResponseEntity.status(404).body(exception.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
