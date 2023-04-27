@@ -2,6 +2,7 @@ package med.voll.api.controller;
 
 import java.net.URI;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
