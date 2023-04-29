@@ -12,10 +12,10 @@ import med.voll.api.repository.UsuarioRepository;
 public class AutenticationService implements UserDetailsService {
 
     @Autowired
-    private UsuarioRepository repository;
+    private UsuarioRepository usuarioRepository;
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        return this.repository.findByLogin(login);
+        return this.usuarioRepository.findByLogin(login);
     }
 }

@@ -17,7 +17,7 @@ import med.voll.api.repository.UsuarioRepository;
 public class UsuarioService{
 
     @Autowired
-    private UsuarioRepository repository;
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -30,14 +30,14 @@ public class UsuarioService{
         Usuario usuario = new Usuario(dados);
         usuario.setLogin(dados.login());
         usuario.setSenha(this.passwordEncoder.encode(dados.senha()));
-        this.repository.save(usuario);
+        this.usuarioRepository.save(usuario);
 
         return usuario;
     }
 
     public Authentication login(AutenticacaoDto dados) {
         var token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
-        Authentication auth = manager.authenticate(token);
+        Authentication auth = this.manager.authenticate(token);
         return auth;
 
     }

@@ -16,7 +16,6 @@ import med.voll.api.dto.autenticacao.TokenDto;
 import med.voll.api.service.usuario.UsuarioService;
 import med.voll.api.service.autenticacao.TokenService;
 
-
 @RestController
 @RequestMapping("/auth")
 public class AutenticacaoController {

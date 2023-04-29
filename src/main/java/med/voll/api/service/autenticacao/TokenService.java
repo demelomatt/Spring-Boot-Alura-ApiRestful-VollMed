@@ -4,12 +4,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +13,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+
 import med.voll.api.domain.usuario.Usuario;
 import med.voll.api.repository.UsuarioRepository;
-
 
 @Service
 public class TokenService {
@@ -73,7 +72,7 @@ public class TokenService {
         if (authHeader != null) {
             String token = authHeader.split("Bearer ")[1];
             String login = getDecodedJWT(token).getSubject();
-            UserDetails usuario = usuarioRepository.findByLogin(login);
+            UserDetails usuario = this.usuarioRepository.findByLogin(login);
             Authentication authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
 
             return authentication;

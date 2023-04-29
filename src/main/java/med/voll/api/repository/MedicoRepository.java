@@ -1,15 +1,14 @@
 package med.voll.api.repository;
 
-import med.voll.api.domain.medico.Especialidade;
+import java.time.LocalDateTime;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import med.voll.api.domain.medico.Medico;
 import org.springframework.data.jpa.repository.Query;
 
-import java.time.LocalDateTime;
-
+import med.voll.api.domain.medico.Especialidade;
+import med.voll.api.domain.medico.Medico;
 
 public interface MedicoRepository extends JpaRepository<Medico, Long> {
     Page<Medico> findAllByAtivoTrue(Pageable paginacao);
@@ -29,4 +28,13 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
             """
     )
     Medico getAvailableMedico(Especialidade especialidade, LocalDateTime date);
+
+    @Query("""
+            SELECT m.ativo
+            FROM Medico m
+            WHERE
+            m.id = :id
+            """)
+    Boolean findAtivoById(Long id);
+
 }

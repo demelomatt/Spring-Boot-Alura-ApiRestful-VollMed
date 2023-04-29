@@ -1,11 +1,12 @@
 package med.voll.api.domain.consulta;
 
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
+
 import lombok.*;
+
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.paciente.Paciente;
-
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -27,4 +28,10 @@ public class Consulta {
     private Medico medico;
 
     private LocalDateTime data;
+    
+    public Consulta(Paciente paciente, Medico medico, LocalDateTime date) {
+        this.paciente = paciente;
+        this.medico = medico;
+        this.data = date;
+    }
 }

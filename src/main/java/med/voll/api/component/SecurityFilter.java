@@ -15,7 +15,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import med.voll.api.service.autenticacao.TokenService;
 
-
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
@@ -25,7 +24,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        Authentication authentication = tokenService.getAuthentication(request);
+        Authentication authentication = this.tokenService.getAuthentication(request);
         if (authentication != null) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
