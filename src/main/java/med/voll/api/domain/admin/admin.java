@@ -1,4 +1,4 @@
-package med.voll.api.domain.usuario;
+package med.voll.api.domain.admin;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,14 +21,14 @@ import med.voll.api.dto.autenticacao.AutenticacaoDto;
 
 @Entity(name = "Usuario")
 @Table(name = "usuarios")
-public class Usuario implements UserDetails {
+public class admin implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String login;
     private String senha;
 
-    public Usuario(AutenticacaoDto dados) {
+    public admin(AutenticacaoDto dados) {
         this.login = dados.login();
         this.senha = dados.senha();
     }
