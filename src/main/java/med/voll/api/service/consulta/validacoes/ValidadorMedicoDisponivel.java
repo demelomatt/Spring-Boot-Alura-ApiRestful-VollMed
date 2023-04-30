@@ -11,7 +11,7 @@ import med.voll.api.repository.ConsultaRepository;
 public class ValidadorMedicoDisponivel implements InterfaceValidadorAgendamento{
 
     @Autowired
-    ConsultaRepository consultaRepository;
+    private ConsultaRepository consultaRepository;
 
     @Override
     public void validar(ConsultaDto dados) {

@@ -15,7 +15,7 @@ public class ValidadorHorarioAntecedencia implements InterfaceValidadorAgendamen
     public void validar(ConsultaDto dados) {
         LocalDateTime dataConsulta = dados.date();
         LocalDateTime dataAtual = LocalDateTime.now();
-        Long diffMin = Duration.between(dataAtual, dataConsulta).toMinutes();
+        Long diffMin = Duration.between(dataAtual, dataConsulta).toMinutes() + 1;
 
         if (diffMin < 30) {
             throw new BusinessException("A consulta deve ser agendada com pelo menos 30min de antecedência!");
