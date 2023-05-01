@@ -11,16 +11,20 @@ import static org.junit.jupiter.api.Assertions.*;
 import med.voll.api.domain.medico.Especialidade;
 import med.voll.api.dto.consulta.ConsultaDto;
 import med.voll.api.exception.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 class ValidadorHorarioClinicaTest {
 
+    @Autowired
     private ValidadorHorarioClinica service;
-    private ConsultaDto dados;
+
     private LocalDateTime date;
+    private ConsultaDto dados;
 
     @BeforeEach
     public void init() {
-        this.service = new ValidadorHorarioClinica();
     }
 
     @AfterEach
@@ -30,19 +34,19 @@ class ValidadorHorarioClinicaTest {
     }
 
     @Test
-    public void itShouldThrowExceptionCosSunday() {
-         this.date = LocalDateTime.of(2023, 04, 30, 10, 0);
+    public void itShouldThrowExceptionWhenSunday() {
+         this.date = LocalDateTime.of(2023, 04, 30, 7, 0);
 
     }
 
     @Test
-    public void itShouldThrowExceptionCosTimeIsBefore() {
-        this.date = LocalDateTime.of(2023, 04, 29, 6, 59);
+    public void itShouldThrowExceptionWhenTimeIsBefore() {
+        this.date = LocalDateTime.of(1900, 01, 01, 6, 59);
     }
 
     @Test
-    public void itShouldThrowExceptionCosTimeIsAfter() {
-        this.date = LocalDateTime.of(2023, 04, 29, 18, 01);
+    public void itShouldThrowExceptionWhenTimeIsAfter() {
+        this.date = LocalDateTime.of(1900, 01, 01, 18, 01);
     }
 
 }
