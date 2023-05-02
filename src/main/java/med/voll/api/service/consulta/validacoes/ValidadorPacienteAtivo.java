@@ -16,7 +16,7 @@ public class ValidadorPacienteAtivo implements InterfaceValidadorAgendamento{
     @Override
     public void validar(ConsultaDto dados) {
 
-        var isPacienteAtivo = this.pacienteRepository.findAtivoById(dados.idPaciente());
+        boolean isPacienteAtivo = this.pacienteRepository.findAtivoById(dados.idPaciente());
         if (!isPacienteAtivo) {
             throw new BusinessException("Consulta não pode ser agendada com paciente excluído");
         }

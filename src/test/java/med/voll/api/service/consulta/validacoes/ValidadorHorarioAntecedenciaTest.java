@@ -2,7 +2,9 @@ package med.voll.api.service.consulta.validacoes;
 
 import java.time.LocalDateTime;
 
-import org.junit.jupiter.api.AfterEach;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,8 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import med.voll.api.domain.medico.Especialidade;
 import med.voll.api.dto.consulta.ConsultaDto;
 import med.voll.api.exception.BusinessException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class ValidadorHorarioAntecedenciaTest {
@@ -24,20 +24,30 @@ public class ValidadorHorarioAntecedenciaTest {
     private ConsultaDto dados;
 
     @BeforeEach
-    public void init() {
+    void init() {
         this.horarioAtual = LocalDateTime.now();
     }
 
     @Test
-    public void itShouldThrowExceptionWhenHorarioInvalido() {
-        this.futureDate = this.horarioAtual.plusMinutes(29);
+    void itShouldThrowExceptionWhenHorarioLesser() {
+        int minutosAntecedencia = this.service.getMINUTES() - 1;
+        this.futureDate = this.horarioAtual.plusMinutes(minutosAntecedencia);
         this.dados = new ConsultaDto(0l,0l,this.futureDate, Especialidade.CARDIOLOGIA);
         assertThrows(BusinessException.class, () -> this.service.validar(this.dados));
     }
 
     @Test
-    public void itShouldNotThrowExceptionWhenHorarioValido() {
-        this.futureDate = this.horarioAtual.plusMinutes(30);
+    void itShouldNotThrowExceptionWhenHorarioEquals() {
+        int minutosAntecedencia = this.service.getMINUTES();
+        this.futureDate = this.horarioAtual.plusMinutes(minutosAntecedencia);
+        this.dados = new ConsultaDto(0l,0l,this.futureDate, Especialidade.CARDIOLOGIA);
+        assertDoesNotThrow(() -> this.service.validar(this.dados));
+    }
+
+    @Test
+    void itShouldNotThrowExceptionWhenHorarioGreater() {
+        int minutosAntecedencia = this.service.getMINUTES() + 1;
+        this.futureDate = this.horarioAtual.plusMinutes(minutosAntecedencia);
         this.dados = new ConsultaDto(0l,0l,this.futureDate, Especialidade.CARDIOLOGIA);
         assertDoesNotThrow(() -> this.service.validar(this.dados));
     }

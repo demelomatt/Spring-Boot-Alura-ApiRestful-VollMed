@@ -27,7 +27,7 @@ class ValidadorMedicoDisponivelTest {
     private ConsultaRepository consultaRepositoryMock;
 
     @BeforeEach
-    public void init() {
+    void init() {
         this.dados = new ConsultaDto(1l,1l, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
     }
 

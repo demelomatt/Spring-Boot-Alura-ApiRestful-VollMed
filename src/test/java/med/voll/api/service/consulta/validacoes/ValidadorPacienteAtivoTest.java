@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,7 +29,7 @@ class ValidadorPacienteAtivoTest {
     private Long idPaciente;
 
     @BeforeEach
-    public void init() {
+    void init() {
         this.idPaciente = 1l;
         this.dados = new ConsultaDto(idPaciente, 1l, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
     }
