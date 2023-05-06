@@ -15,16 +15,15 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import static org.junit.jupiter.api.Assertions.*;
+
 import static org.assertj.core.api.Assertions.*;
 
 import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.dto.consulta.ConsultaDetalheDto;
-import med.voll.api.dto.consulta.ConsultaDto;
+import med.voll.api.dto.consulta.ConsultaDetalheResponse;
+import med.voll.api.dto.consulta.ConsultaAgendarRequest;
 import med.voll.api.service.consulta.ConsultaService;
 
 @SpringBootTest
@@ -36,10 +35,10 @@ class ConsultaControllerTest {
     private MockMvc mvc;
 
     @Autowired
-    private JacksonTester<ConsultaDto> consultaJson;
+    private JacksonTester<ConsultaAgendarRequest> consultaJson;
 
     @Autowired
-    private JacksonTester<ConsultaDetalheDto> consultaDetalheJson;
+    private JacksonTester<ConsultaDetalheResponse> consultaDetalheJson;
 
     @MockBean
     private ConsultaService consultaService;
@@ -59,10 +58,10 @@ class ConsultaControllerTest {
     void itShouldReturnOkGivenBodyIsValid() throws Exception {
         // Given
         LocalDateTime date =  LocalDateTime.now().plusHours(1);
-        ConsultaDto consultaDto = new ConsultaDto(1l, 1l,date, Especialidade.CARDIOLOGIA);
-        ConsultaDetalheDto consultaDetalheDto = new ConsultaDetalheDto(null, 1l,1l, date);
+        ConsultaAgendarRequest consultaDto = new ConsultaAgendarRequest(1l, 1l,date, Especialidade.CARDIOLOGIA);
+        ConsultaDetalheResponse consultaDetalheResponse = new ConsultaDetalheResponse(null, 1l,1l, date);
 
-        Mockito.when(this.consultaService.agendar(Mockito.any())).thenReturn(consultaDetalheDto);
+        Mockito.when(this.consultaService.agendar(Mockito.any())).thenReturn(consultaDetalheResponse);
 
         // When
         MockHttpServletResponse response = this.mvc.perform(
@@ -76,7 +75,7 @@ class ConsultaControllerTest {
 
 
         String jsonResponse =  this.consultaDetalheJson
-                .write(consultaDetalheDto)
+                .write(consultaDetalheResponse)
                 .getJson();
 
         // Then

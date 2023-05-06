@@ -5,11 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 
 import med.voll.api.domain.admin.Admin;
 
-public record AutenticacaoDto(
+public record AutenticacaoAutenticarRequest(
         @NotBlank @Email String login,
         @NotBlank String senha
 ) {
-    public AutenticacaoDto(Admin admin) {
+    public AutenticacaoAutenticarRequest(Admin admin) {
         this(admin.getLogin(), admin.getSenha());
     }
 }

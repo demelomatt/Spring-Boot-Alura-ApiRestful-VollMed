@@ -17,10 +17,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import med.voll.api.domain.medico.Medico;
-import med.voll.api.dto.medico.MedicoDetalheDto;
-import med.voll.api.dto.medico.MedicoAtualizarDto;
-import med.voll.api.dto.medico.MedicoDto;
-import med.voll.api.dto.medico.MedicoListDto;
+import med.voll.api.dto.medico.MedicoDetalheResponse;
+import med.voll.api.dto.medico.MedicoAtualizarRequest;
+import med.voll.api.dto.medico.MedicoCadastrarRequest;
+import med.voll.api.dto.medico.MedicoListarResponse;
 import med.voll.api.service.medico.MedicoService;
 
 @Tag(name = "Médico")
@@ -34,25 +34,25 @@ public class MedicoController {
 
     @Operation(summary = "Cadastrar novo médico")
     @PostMapping
-    public ResponseEntity<MedicoDetalheDto> cadastrar(@Valid @RequestBody MedicoDto dados, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<MedicoDetalheResponse> cadastrar(@Valid @RequestBody MedicoCadastrarRequest dados, UriComponentsBuilder uriBuilder) {
         Medico medico = new Medico(dados);
         this.medicoService.cadastrar(medico);
         URI uri = uriBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
-        return ResponseEntity.created(uri).body(new MedicoDetalheDto(medico));
+        return ResponseEntity.created(uri).body(new MedicoDetalheResponse(medico));
     }
 
     @Operation(summary = "Listar médicos")
     @GetMapping
-    public ResponseEntity<Page<MedicoListDto>> listar(@PageableDefault(size = 30, sort = {"nome", "especialidade"}) Pageable paginacao) {
-        Page<MedicoListDto> medicos = this.medicoService.listar(paginacao).map(MedicoListDto::new);
+    public ResponseEntity<Page<MedicoListarResponse>> listar(@PageableDefault(size = 30, sort = {"nome", "especialidade"}) Pageable paginacao) {
+        Page<MedicoListarResponse> medicos = this.medicoService.listar(paginacao).map(MedicoListarResponse::new);
         return ResponseEntity.ok(medicos);
     }
 
     @Operation(summary = "Atualizar médico")
     @PutMapping
-    public ResponseEntity<MedicoDetalheDto> atualizar(@Valid @RequestBody MedicoAtualizarDto dados) {
+    public ResponseEntity<MedicoDetalheResponse> atualizar(@Valid @RequestBody MedicoAtualizarRequest dados) {
         Medico medico = this.medicoService.atualizar(dados);
-        return ResponseEntity.ok(new MedicoDetalheDto(medico));
+        return ResponseEntity.ok(new MedicoDetalheResponse(medico));
     }
 
     @Operation(summary = "Deletar médico")
@@ -64,8 +64,8 @@ public class MedicoController {
 
     @Operation(summary = "Detalhar médico")
     @GetMapping("/{id}")
-    public ResponseEntity<MedicoDetalheDto> detalhar(@PathVariable Long id) {
+    public ResponseEntity<MedicoDetalheResponse> detalhar(@PathVariable Long id) {
         Medico medico = this.medicoService.detalhar(id);
-        return ResponseEntity.ok(new MedicoDetalheDto(medico));
+        return ResponseEntity.ok(new MedicoDetalheResponse(medico));
     }
 }

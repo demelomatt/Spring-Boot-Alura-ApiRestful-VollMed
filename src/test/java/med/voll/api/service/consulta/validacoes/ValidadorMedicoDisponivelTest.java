@@ -12,7 +12,7 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.*;
 
 import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.dto.consulta.ConsultaDto;
+import med.voll.api.dto.consulta.ConsultaAgendarRequest;
 import med.voll.api.exception.BusinessException;
 import med.voll.api.repository.ConsultaRepository;
 
@@ -24,12 +24,12 @@ class ValidadorMedicoDisponivelTest {
     @InjectMocks
     private ValidadorMedicoDisponivel service;
 
-    private ConsultaDto dados;
+    private ConsultaAgendarRequest dados;
 
     @BeforeEach
     void init() {
         MockitoAnnotations.initMocks(this);
-        this.dados = new ConsultaDto(1l,1l, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaAgendarRequest(1l,1l, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
     }
 
     @Test

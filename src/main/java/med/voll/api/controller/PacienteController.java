@@ -16,10 +16,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import med.voll.api.domain.paciente.Paciente;
-import med.voll.api.dto.paciente.PacienteDetalheDto;
-import med.voll.api.dto.paciente.PacienteAtualizarDto;
-import med.voll.api.dto.paciente.PacienteDto;
-import med.voll.api.dto.paciente.PacienteListDto;
+import med.voll.api.dto.paciente.PacienteDetalheResponse;
+import med.voll.api.dto.paciente.PacienteAtualizarRequest;
+import med.voll.api.dto.paciente.PacienteCadastrarRequest;
+import med.voll.api.dto.paciente.PacienteListarResponse;
 import med.voll.api.service.paciente.PacienteService;
 
 @Tag(name = "Paciente")
@@ -33,25 +33,25 @@ public class PacienteController {
 
     @Operation(summary = "Cadastra novo paciente")
     @PostMapping
-    public ResponseEntity<PacienteDetalheDto> cadastrar(@Valid @RequestBody PacienteDto dados, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<PacienteDetalheResponse> cadastrar(@Valid @RequestBody PacienteCadastrarRequest dados, UriComponentsBuilder uriBuilder) {
         Paciente paciente = new Paciente(dados);
         this.pacienteService.cadastrar(paciente);
         URI uri = uriBuilder.path("/pacientes/{id}").buildAndExpand(paciente.getId()).toUri();
-        return ResponseEntity.created(uri).body(new PacienteDetalheDto(paciente));
+        return ResponseEntity.created(uri).body(new PacienteDetalheResponse(paciente));
     }
 
     @Operation(summary = "Listar pacientes")
     @GetMapping
-    public ResponseEntity<Page<PacienteListDto>> listar(Pageable paginacao) {
-        Page<PacienteListDto> paciente =  this.pacienteService.listar(paginacao).map(PacienteListDto::new);
+    public ResponseEntity<Page<PacienteListarResponse>> listar(Pageable paginacao) {
+        Page<PacienteListarResponse> paciente =  this.pacienteService.listar(paginacao).map(PacienteListarResponse::new);
         return ResponseEntity.ok(paciente);
     }
 
     @Operation(summary = "Atualizar paciente")
     @PutMapping
-    public ResponseEntity<PacienteDetalheDto> atualizar(@Valid @RequestBody PacienteAtualizarDto dados) {
+    public ResponseEntity<PacienteDetalheResponse> atualizar(@Valid @RequestBody PacienteAtualizarRequest dados) {
         Paciente paciente = this.pacienteService.atualizar(dados);
-        return ResponseEntity.ok(new PacienteDetalheDto(paciente));
+        return ResponseEntity.ok(new PacienteDetalheResponse(paciente));
 
     }
 
@@ -64,9 +64,9 @@ public class PacienteController {
 
     @Operation(summary = "Detalhar paciente")
     @GetMapping("/{id}")
-    public ResponseEntity<PacienteDetalheDto> detalhar(@PathVariable Long id) {
+    public ResponseEntity<PacienteDetalheResponse> detalhar(@PathVariable Long id) {
         Paciente paciente = this.pacienteService.detalhar(id);
-        return ResponseEntity.ok(new PacienteDetalheDto(paciente));
+        return ResponseEntity.ok(new PacienteDetalheResponse(paciente));
     }
 
 }

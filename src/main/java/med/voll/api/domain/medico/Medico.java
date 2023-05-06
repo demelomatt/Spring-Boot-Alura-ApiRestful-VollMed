@@ -8,8 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import med.voll.api.domain.util.Endereco;
-import med.voll.api.dto.medico.MedicoAtualizarDto;
-import med.voll.api.dto.medico.MedicoDto;
+import med.voll.api.dto.medico.MedicoAtualizarRequest;
+import med.voll.api.dto.medico.MedicoCadastrarRequest;
 
 @Getter
 @NoArgsConstructor
@@ -34,7 +34,7 @@ public class Medico {
     @Embedded
     private Endereco endereco;
 
-    public Medico(MedicoDto data) {
+    public Medico(MedicoCadastrarRequest data) {
         this.nome = data.nome();
         this.email = data.email();
         this.telefone = data.telefone();
@@ -44,7 +44,7 @@ public class Medico {
         this.ativo = true;
     }
 
-    public void atualizar(MedicoAtualizarDto medico) {
+    public void atualizar(MedicoAtualizarRequest medico) {
         this.nome = (medico.nome() != null) ? medico.nome() : this.nome;
         this.telefone = (medico.telefone() != null) ? medico.telefone() : this.telefone;
         this.endereco = (medico.endereco() != null) ? new Endereco(medico.endereco()) : this.endereco;

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.dto.consulta.ConsultaDto;
+import med.voll.api.dto.consulta.ConsultaAgendarRequest;
 import med.voll.api.exception.BusinessException;
 
 class ValidadorHorarioClinicaTest {
@@ -17,7 +17,7 @@ class ValidadorHorarioClinicaTest {
     private ValidadorHorarioClinica service;
 
     private LocalDateTime date;
-    private ConsultaDto dados;
+    private ConsultaAgendarRequest dados;
 
     @BeforeEach
     void init() {
@@ -28,7 +28,7 @@ class ValidadorHorarioClinicaTest {
     @DisplayName("Deveria lançar uma exceção quando a data de consulta informada for em um domingo.")
     void itShouldThrowExceptionGivenSundayDate() {
         this.date = LocalDateTime.of(2023, 04, 30, 7, 0);
-        this.dados = new ConsultaDto(0l,0l,this.date, Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaAgendarRequest(0l,0l,this.date, Especialidade.CARDIOLOGIA);
         assertThrows(BusinessException.class, ()-> this.service.validar(this.dados));
     }
 
@@ -36,7 +36,7 @@ class ValidadorHorarioClinicaTest {
     @DisplayName("Não deveria lançar uma exceção quando a data de consulta informada for em uma dia diferente de domingo.")
     void itShouldNotThrowExceptionGivenNonSundayDate() {
         this.date = LocalDateTime.of(2023, 04, 28, 7, 0);
-        this.dados = new ConsultaDto(0l,0l,this.date, Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaAgendarRequest(0l,0l,this.date, Especialidade.CARDIOLOGIA);
         assertDoesNotThrow(()-> this.service.validar(this.dados));
     }
 
@@ -44,7 +44,7 @@ class ValidadorHorarioClinicaTest {
     @DisplayName("Deveria lançar uma exceção quando o horário de consulta informado for antes do horário de abertura da clínica.")
     void itShouldThrowExceptionGivenTimeIsBeforeStartTime() {
         this.date = LocalDateTime.of(LocalDate.now(), this.service.getSTART_TIME());
-        this.dados = new ConsultaDto(0l,0l,this.date, Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaAgendarRequest(0l,0l,this.date, Especialidade.CARDIOLOGIA);
         assertThrows(BusinessException.class, ()-> this.service.validar(this.dados));
     }
 
@@ -52,7 +52,7 @@ class ValidadorHorarioClinicaTest {
     @DisplayName("Não deveria lançar uma exceção quando o horário de consulta informado for depois do horário de abertura da clínica.")
     void itShouldNotThrowExceptionGivenTimeIsAfterStartTime() {
         this.date = LocalDateTime.of(LocalDate.now(), this.service.getSTART_TIME().plusMinutes(1));
-        this.dados = new ConsultaDto(0l,0l,this.date, Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaAgendarRequest(0l,0l,this.date, Especialidade.CARDIOLOGIA);
         assertDoesNotThrow(()-> this.service.validar(this.dados));
     }
 
@@ -60,7 +60,7 @@ class ValidadorHorarioClinicaTest {
     @DisplayName("Deveria lançar uma exceção quando o horário de consulta informado for depois do horário de fechamento da clínica.")
     void itShouldThrowExceptionGivenTimeIsAfterEndTime() {
         this.date = LocalDateTime.of(LocalDate.now(), this.service.getEND_TIME());
-        this.dados = new ConsultaDto(0l,0l,this.date, Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaAgendarRequest(0l,0l,this.date, Especialidade.CARDIOLOGIA);
         assertThrows(BusinessException.class, ()-> this.service.validar(this.dados));
     }
 
@@ -68,7 +68,7 @@ class ValidadorHorarioClinicaTest {
     @DisplayName("Não deveria lançar uma exceção quando o horário de consulta informado for antes do horário de fechamento da clínica.")
     void itShouldNotThrowExceptionGivenTimeIsBeforeEndTime() {
         this.date = LocalDateTime.of(LocalDate.now(), this.service.getEND_TIME().minusMinutes(1));
-        this.dados = new ConsultaDto(0l,0l,this.date, Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaAgendarRequest(0l,0l,this.date, Especialidade.CARDIOLOGIA);
         assertDoesNotThrow(()-> this.service.validar(this.dados));
     }
 

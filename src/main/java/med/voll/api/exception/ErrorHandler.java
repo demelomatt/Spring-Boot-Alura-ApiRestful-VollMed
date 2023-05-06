@@ -17,7 +17,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import med.voll.api.exception.dto.ArgumentNotValidDto;
+import med.voll.api.dto.exception.ArgumentNotValidResponse;
 
 @RestControllerAdvice
 public class ErrorHandler {
@@ -33,9 +33,9 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<ArgumentNotValidDto>> handleArgumentNotValid(MethodArgumentNotValidException exception) {
+    public ResponseEntity<List<ArgumentNotValidResponse>> handleArgumentNotValid(MethodArgumentNotValidException exception) {
         List<FieldError> errors = exception.getFieldErrors();
-        return ResponseEntity.badRequest().body(errors.stream().map(ArgumentNotValidDto::new).toList());
+        return ResponseEntity.badRequest().body(errors.stream().map(ArgumentNotValidResponse::new).toList());
     }
 
     @ExceptionHandler({SQLIntegrityConstraintViolationException.class, DataIntegrityViolationException.class})

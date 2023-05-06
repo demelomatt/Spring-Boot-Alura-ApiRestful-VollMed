@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import med.voll.api.dto.endereco.EnderecoDto;
+import med.voll.api.dto.endereco.EnderecoRequest;
 
 @Getter
 @NoArgsConstructor
@@ -24,7 +24,7 @@ public class Endereco {
     private String numero;
     private String complemento;
 
-    public Endereco(EnderecoDto endereco) {
+    public Endereco(EnderecoRequest endereco) {
         this.logradouro = endereco.logradouro();
         this.bairro = endereco.bairro();
         this.cep = endereco.cep();

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.Getter;
 
-import med.voll.api.dto.consulta.ConsultaDto;
+import med.voll.api.dto.consulta.ConsultaAgendarRequest;
 import med.voll.api.exception.BusinessException;
 
 @Getter
@@ -19,7 +19,7 @@ public class ValidadorHorarioClinica implements InterfaceValidadorAgendamento {
     private final LocalTime END_TIME = LocalTime.of(18, 1);
 
     @Override
-    public void validar(ConsultaDto dados) {
+    public void validar(ConsultaAgendarRequest dados) {
         LocalDateTime dataConsulta = dados.date();
         LocalTime horarioConsulta = dataConsulta.toLocalTime();
 

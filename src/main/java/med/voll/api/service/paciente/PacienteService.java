@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import med.voll.api.domain.paciente.Paciente;
-import med.voll.api.dto.paciente.PacienteAtualizarDto;
+import med.voll.api.dto.paciente.PacienteAtualizarRequest;
 import med.voll.api.repository.PacienteRepository;
 
 @Service
@@ -29,7 +29,7 @@ public class PacienteService {
     }
 
     @Transactional
-    public Paciente atualizar(PacienteAtualizarDto dados) {
+    public Paciente atualizar(PacienteAtualizarRequest dados) {
         Paciente paciente = this.pacienteRepository.getReferenceById(dados.id());
         paciente.atualizar(dados);
         return paciente;

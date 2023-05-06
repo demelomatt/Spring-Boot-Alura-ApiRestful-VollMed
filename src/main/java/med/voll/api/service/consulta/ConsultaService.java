@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import med.voll.api.domain.consulta.Consulta;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.paciente.Paciente;
-import med.voll.api.dto.consulta.ConsultaDetalheDto;
-import med.voll.api.dto.consulta.ConsultaDto;
+import med.voll.api.dto.consulta.ConsultaDetalheResponse;
+import med.voll.api.dto.consulta.ConsultaAgendarRequest;
 import med.voll.api.exception.BusinessException;
 import med.voll.api.repository.ConsultaRepository;
 import med.voll.api.repository.MedicoRepository;
@@ -35,7 +35,7 @@ public class ConsultaService {
     private List<InterfaceValidadorAgendamento> validadores;
 
     @Transactional
-        public ConsultaDetalheDto agendar(ConsultaDto dados) {
+        public ConsultaDetalheResponse agendar(ConsultaAgendarRequest dados) {
             Paciente paciente = this.pacienteRepository.findById(dados.idPaciente()).orElseThrow(() -> new EntityNotFoundException("Esse paciente não existe!"));
             Medico medico = this.getMedico(dados);
 
@@ -48,10 +48,10 @@ public class ConsultaService {
             Consulta consulta = new Consulta(paciente, medico, dados.date());
             this.consultaRepository.save(consulta);
 
-            return new ConsultaDetalheDto(consulta);
+            return new ConsultaDetalheResponse(consulta);
         }
 
-        private Medico getMedico(ConsultaDto dados) {
+        private Medico getMedico(ConsultaAgendarRequest dados) {
             if (dados.idMedico() != null) {
                 return  this.medicoRepository.findById(dados.idMedico()).orElseThrow(() -> new EntityNotFoundException("Esse médico não existe!"));
             }

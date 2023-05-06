@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.Getter;
 
-import med.voll.api.dto.consulta.ConsultaDto;
+import med.voll.api.dto.consulta.ConsultaAgendarRequest;
 import med.voll.api.exception.BusinessException;
 
 @Getter
@@ -17,7 +17,7 @@ public class ValidadorHorarioAntecedencia implements InterfaceValidadorAgendamen
     private final int MINUTES = 30;
 
     @Override
-    public void validar(ConsultaDto dados) {
+    public void validar(ConsultaAgendarRequest dados) {
         LocalDateTime dataConsulta = dados.date();
         LocalDateTime dataAtual = LocalDateTime.now();
         Long diffMin = Duration.between(dataAtual, dataConsulta).toMinutes() + 1;

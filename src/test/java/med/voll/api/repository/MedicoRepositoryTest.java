@@ -13,16 +13,16 @@ import org.springframework.test.context.ActiveProfiles;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
 import static org.assertj.core.api.Assertions.*;
 
 import med.voll.api.domain.consulta.Consulta;
 import med.voll.api.domain.medico.Especialidade;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.paciente.Paciente;
-import med.voll.api.dto.endereco.EnderecoDto;
-import med.voll.api.dto.medico.MedicoDto;
-import med.voll.api.dto.paciente.PacienteDto;
+import med.voll.api.dto.endereco.EnderecoRequest;
+import med.voll.api.dto.medico.MedicoCadastrarRequest;
+import med.voll.api.dto.paciente.PacienteCadastrarRequest;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -71,8 +71,8 @@ class MedicoRepositoryTest {
                 .atTime(10, 0);
     }
 
-    private EnderecoDto dtoEndereco() {
-        return new EnderecoDto(
+    private EnderecoRequest dtoEndereco() {
+        return new EnderecoRequest(
                 "rua xpto",
                 "bairro",
                 "00000000",
@@ -83,8 +83,8 @@ class MedicoRepositoryTest {
         );
     }
 
-    private MedicoDto dtoMedico(String nome, String email, String telefone, String crm, Especialidade especialidade) {
-        return new MedicoDto(
+    private MedicoCadastrarRequest dtoMedico(String nome, String email, String telefone, String crm, Especialidade especialidade) {
+        return new MedicoCadastrarRequest(
                 nome,
                 email,
                 telefone,
@@ -95,8 +95,8 @@ class MedicoRepositoryTest {
 
     }
 
-    private PacienteDto dtoPaciente(String nome, String email, String telefone, String cpf) {
-        return new PacienteDto(
+    private PacienteCadastrarRequest dtoPaciente(String nome, String email, String telefone, String cpf) {
+        return new PacienteCadastrarRequest(
                 nome,
                 email,
                 telefone,

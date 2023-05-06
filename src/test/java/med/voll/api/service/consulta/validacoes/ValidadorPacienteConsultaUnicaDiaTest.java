@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.dto.consulta.ConsultaDto;
+import med.voll.api.dto.consulta.ConsultaAgendarRequest;
 import med.voll.api.exception.BusinessException;
 import med.voll.api.repository.ConsultaRepository;
 
@@ -25,14 +25,14 @@ class ValidadorPacienteConsultaUnicaDiaTest {
     @InjectMocks
     private ValidadorPacienteConsultaUnicaDia service;
 
-    private ConsultaDto dados;
+    private ConsultaAgendarRequest dados;
     private LocalDateTime primeiroHorario;
     private LocalDateTime ultimoHorario;
 
     @BeforeEach
     void init() {
         MockitoAnnotations.initMocks(this);
-        this.dados = new ConsultaDto(1l, 1l, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaAgendarRequest(1l, 1l, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
         this.primeiroHorario = dados.date().withHour(this.service.getSTART_HOUR());
         this.ultimoHorario = dados.date().withHour(this.service.getEND_HOUR());
     }

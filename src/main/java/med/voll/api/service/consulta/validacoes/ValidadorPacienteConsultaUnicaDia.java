@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.Getter;
 
-import med.voll.api.dto.consulta.ConsultaDto;
+import med.voll.api.dto.consulta.ConsultaAgendarRequest;
 import med.voll.api.exception.BusinessException;
 import med.voll.api.repository.ConsultaRepository;
 
@@ -21,7 +21,7 @@ public class ValidadorPacienteConsultaUnicaDia implements InterfaceValidadorAgen
     private ConsultaRepository consultaRepository;
 
     @Override
-    public void validar(ConsultaDto dados) {
+    public void validar(ConsultaAgendarRequest dados) {
         LocalDateTime primeiroHorario = dados.date().withHour(START_HOUR);
         LocalDateTime ultimoHorario = dados.date().withHour(END_HOUR);
 

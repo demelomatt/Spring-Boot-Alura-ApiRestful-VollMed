@@ -3,7 +3,7 @@ package med.voll.api.service.consulta.validacoes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import med.voll.api.dto.consulta.ConsultaDto;
+import med.voll.api.dto.consulta.ConsultaAgendarRequest;
 import med.voll.api.exception.BusinessException;
 import med.voll.api.repository.MedicoRepository;
 
@@ -14,7 +14,7 @@ public class ValidadorMedicoAtivo implements InterfaceValidadorAgendamento{
     private MedicoRepository medicoRepository;
 
     @Override
-    public void validar(ConsultaDto dados) {
+    public void validar(ConsultaAgendarRequest dados) {
         //escolha do médico opcional
         if (dados.idMedico() == null) {
             return;
