@@ -36,8 +36,8 @@ class MedicoRepositoryTest {
     private TestEntityManager em;
 
     @Test
-    @DisplayName("Deveria devolver null quando unico medico cadastrado nao esta disponivel na data")
-    void itShouldReturnNullWhenMedicoHasConsulta() {
+    @DisplayName("Deveria retornar null quando não há nenhum médico disponível na data.")
+    void itShouldReturnNullGivenMedicoHasConsulta() {
 
         // Given
         Medico medico = createMedico("Medico", "medico@voll.med", "1199998888" ,"123456", Especialidade.CARDIOLOGIA);
@@ -52,8 +52,8 @@ class MedicoRepositoryTest {
     }
 
     @Test
-    @DisplayName("Deveria devolver Medico quando ele estiver disponível na data")
-    void itShouldReturnMedicoWhenMedicoAvailable() {
+    @DisplayName("Deveria retornar um Médico quando ele estiver disponível na data.")
+    void itShouldReturnMedicoGivenMedicoAvailable() {
 
         // Given
         Medico medico = createMedico("Medico", "medico@voll.med", "1199998888" ,"123456", Especialidade.CARDIOLOGIA);

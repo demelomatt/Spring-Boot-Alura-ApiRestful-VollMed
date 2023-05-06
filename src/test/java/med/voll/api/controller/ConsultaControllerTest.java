@@ -1,13 +1,7 @@
 package med.voll.api.controller;
 
-import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.dto.consulta.ConsultaDetalheDto;
-import med.voll.api.dto.consulta.ConsultaDto;
-import med.voll.api.service.consulta.ConsultaService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,12 +13,19 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
-import java.time.LocalDateTime;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
+import med.voll.api.domain.medico.Especialidade;
+import med.voll.api.dto.consulta.ConsultaDetalheDto;
+import med.voll.api.dto.consulta.ConsultaDto;
+import med.voll.api.service.consulta.ConsultaService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -46,7 +47,7 @@ class ConsultaControllerTest {
     @Test
     @DisplayName("Deveria retornar código 400 quando body está vazio")
     @WithMockUser
-    void itShouldReturnBadRequestWhenBodyEmpty() throws Exception {
+    void itShouldReturnBadRequestGivenBodyEmpty() throws Exception {
         MockHttpServletResponse response = this.mvc.perform(post("/consultas"))
                  .andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -55,7 +56,7 @@ class ConsultaControllerTest {
     @Test
     @DisplayName("Deveria retornar código 200 quando body é válido")
     @WithMockUser
-    void itShouldReturnOkWhenBodyIsValid() throws Exception {
+    void itShouldReturnOkGivenBodyIsValid() throws Exception {
         // Given
         LocalDateTime date =  LocalDateTime.now().plusHours(1);
         ConsultaDto consultaDto = new ConsultaDto(1l, 1l,date, Especialidade.CARDIOLOGIA);
@@ -83,6 +84,5 @@ class ConsultaControllerTest {
         assertThat(response.getContentAsString()).isEqualTo(jsonResponse);
 
     }
-
 
 }

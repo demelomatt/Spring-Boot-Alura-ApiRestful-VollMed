@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import med.voll.api.domain.admin.admin;
+import med.voll.api.domain.admin.Admin;
 import med.voll.api.dto.autenticacao.AutenticacaoDto;
 import med.voll.api.dto.admin.AdminDetalheDto;
 import med.voll.api.service.admin.AdminService;
@@ -26,7 +26,7 @@ public class AdminController {
 
     @PostMapping
     public ResponseEntity<AdminDetalheDto> cadastrar(@RequestBody @Valid AutenticacaoDto dados, UriComponentsBuilder uriBuilder) {
-        admin admin = this.adminService.cadastrar(dados);
+        Admin admin = this.adminService.cadastrar(dados);
         URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(admin.getId()).toUri();
         return ResponseEntity.created(uri).body(new AdminDetalheDto(admin));
     }

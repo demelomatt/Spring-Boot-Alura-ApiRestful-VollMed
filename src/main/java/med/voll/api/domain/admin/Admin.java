@@ -21,14 +21,14 @@ import med.voll.api.dto.autenticacao.AutenticacaoDto;
 
 @Entity(name = "Usuario")
 @Table(name = "usuarios")
-public class admin implements UserDetails {
+public class Admin implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String login;
     private String senha;
 
-    public admin(AutenticacaoDto dados) {
+    public Admin(AutenticacaoDto dados) {
         this.login = dados.login();
         this.senha = dados.senha();
     }
