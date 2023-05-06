@@ -12,11 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import med.voll.api.domain.admin.Admin;
 import med.voll.api.dto.autenticacao.AutenticacaoDto;
 import med.voll.api.dto.admin.AdminDetalheDto;
 import med.voll.api.service.admin.AdminService;
 
+@Tag(name = "Usuário")
 @RestController
 @RequestMapping("/usuarios")
 public class AdminController {
@@ -24,6 +28,7 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
+    @Operation(summary = "Cadastrar um novo usuário")
     @PostMapping
     public ResponseEntity<AdminDetalheDto> cadastrar(@RequestBody @Valid AutenticacaoDto dados, UriComponentsBuilder uriBuilder) {
         Admin admin = this.adminService.cadastrar(dados);
