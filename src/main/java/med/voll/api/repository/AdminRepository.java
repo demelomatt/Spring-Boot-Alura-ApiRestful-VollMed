@@ -1,9 +1,10 @@
 package med.voll.api.repository;
 
-import med.voll.api.domain.usuario.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+import med.voll.api.domain.admin.admin;
+
+public interface AdminRepository extends JpaRepository<admin, Long> {
     UserDetails findByLogin(String login);
 }

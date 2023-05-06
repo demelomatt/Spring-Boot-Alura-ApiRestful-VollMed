@@ -12,23 +12,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import med.voll.api.domain.usuario.Usuario;
+import med.voll.api.domain.admin.admin;
 import med.voll.api.dto.autenticacao.AutenticacaoDto;
-import med.voll.api.dto.usuario.UsuarioDetalheDto;
-import med.voll.api.service.usuario.UsuarioService;
-
+import med.voll.api.dto.admin.AdminDetalheDto;
+import med.voll.api.service.admin.AdminService;
 
 @RestController
 @RequestMapping("/usuarios")
-public class UsuarioController {
+public class AdminController {
 
     @Autowired
-    UsuarioService usuarioService;
+    AdminService adminService;
 
     @PostMapping
-    public ResponseEntity<UsuarioDetalheDto> cadastrar(@RequestBody @Valid AutenticacaoDto dados, UriComponentsBuilder uriBuilder) {
-        Usuario usuario = usuarioService.registerUser(dados);
-        URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
-        return ResponseEntity.created(uri).body(new UsuarioDetalheDto(usuario));
+    public ResponseEntity<AdminDetalheDto> cadastrar(@RequestBody @Valid AutenticacaoDto dados, UriComponentsBuilder uriBuilder) {
+        admin admin = this.adminService.cadastrar(dados);
+        URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(admin.getId()).toUri();
+        return ResponseEntity.created(uri).body(new AdminDetalheDto(admin));
     }
 }

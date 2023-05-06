@@ -30,8 +30,9 @@ public class SecurityConfig {
                 .and().authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST,"/auth").permitAll()
                 .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                 .anyRequest().authenticated()
-                .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .and().addFilterBefore(this.securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

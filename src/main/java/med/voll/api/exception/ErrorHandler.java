@@ -19,12 +19,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import med.voll.api.exception.dto.ArgumentNotValidDto;
 
-
 @RestControllerAdvice
 public class ErrorHandler {
 
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<String> handleBusiness(BusinessException exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Void> handleEntityNotFound() {
+    public ResponseEntity<String> handleEntityNotFound(EntityNotFoundException exception) {
         return ResponseEntity.notFound().build();
     }
 
