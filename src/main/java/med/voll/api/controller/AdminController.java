@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import med.voll.api.domain.admin.Admin;
-import med.voll.api.dto.autenticacao.AutenticacaoAutenticarRequest;
+import med.voll.api.dto.autenticacao.AutenticacaoUsuarioRequest;
 import med.voll.api.dto.admin.AdminCadastrarResponse;
 import med.voll.api.service.admin.AdminService;
 
@@ -30,7 +30,7 @@ public class AdminController {
 
     @Operation(summary = "Cadastrar um novo usuário")
     @PostMapping
-    public ResponseEntity<AdminCadastrarResponse> cadastrar(@RequestBody @Valid AutenticacaoAutenticarRequest dados, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<AdminCadastrarResponse> cadastrar(@RequestBody @Valid AutenticacaoUsuarioRequest dados, UriComponentsBuilder uriBuilder) {
         Admin admin = this.adminService.cadastrar(dados);
         URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(admin.getId()).toUri();
         return ResponseEntity.created(uri).body(new AdminCadastrarResponse(admin));

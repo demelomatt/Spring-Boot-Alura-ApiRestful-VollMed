@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import med.voll.api.dto.autenticacao.AutenticacaoAutenticarRequest;
-import med.voll.api.dto.autenticacao.AutenticacaoAutenticarResponse;
+import med.voll.api.dto.autenticacao.AutenticacaoUsuarioRequest;
+import med.voll.api.dto.autenticacao.AutenticacaoUsuarioResponse;
 import med.voll.api.service.admin.AdminService;
 
 @Tag(name = "Autenticação")
@@ -26,8 +26,8 @@ public class AutenticacaoController {
 
     @Operation(summary = "Autenticar usuário")
     @PostMapping
-    public ResponseEntity<AutenticacaoAutenticarResponse> autenticar(@RequestBody @Valid AutenticacaoAutenticarRequest dados) {
+    public ResponseEntity<AutenticacaoUsuarioResponse> autenticar(@RequestBody @Valid AutenticacaoUsuarioRequest dados) {
         String credentials = this.adminService.getCredentials(dados);
-        return ResponseEntity.ok(new AutenticacaoAutenticarResponse(credentials));
+        return ResponseEntity.ok(new AutenticacaoUsuarioResponse(credentials));
     }
 }

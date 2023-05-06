@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.*;
 
-import med.voll.api.dto.autenticacao.AutenticacaoAutenticarRequest;
+import med.voll.api.dto.autenticacao.AutenticacaoUsuarioRequest;
 
 @Getter
 @Setter
@@ -28,7 +28,7 @@ public class Admin implements UserDetails {
     private String login;
     private String senha;
 
-    public Admin(AutenticacaoAutenticarRequest dados) {
+    public Admin(AutenticacaoUsuarioRequest dados) {
         this.login = dados.login();
         this.senha = dados.senha();
     }

@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import med.voll.api.domain.admin.Admin;
-import med.voll.api.dto.autenticacao.AutenticacaoAutenticarRequest;
+import med.voll.api.dto.autenticacao.AutenticacaoUsuarioRequest;
 import med.voll.api.repository.AdminRepository;
 import med.voll.api.service.autenticacao.TokenService;
 
@@ -30,7 +30,7 @@ public class AdminService {
     private AuthenticationManager manager;
 
     @Transactional
-    public Admin cadastrar(AutenticacaoAutenticarRequest dados) {
+    public Admin cadastrar(AutenticacaoUsuarioRequest dados) {
         Admin admin = new Admin(dados);
         admin.setLogin(dados.login());
         admin.setSenha(this.passwordEncoder.encode(dados.senha()));
@@ -39,7 +39,7 @@ public class AdminService {
         return admin;
     }
 
-    public String getCredentials(AutenticacaoAutenticarRequest dados) {
+    public String getCredentials(AutenticacaoUsuarioRequest dados) {
         var authToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
         Authentication auth = this.manager.authenticate(authToken);
         String tokenJwt = this.tokenService.gerarToken((Admin) auth.getPrincipal());
