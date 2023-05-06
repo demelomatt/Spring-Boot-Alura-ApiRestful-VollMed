@@ -10,7 +10,7 @@ A proposta do curso é desenvolver uma API Rest para esse projeto.
 - Spring Boot 3
 - Java 17
 - Gradle (minha escolha)
-- Postmane (minha escolha)
+- Postman (minha escolha)
 - Lombok
 - JPA/Hibernate
 - MySQL/ Flyway
