@@ -1,12 +1,11 @@
 package med.voll.api.adapter.web.exception;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.List;
-
 import jakarta.persistence.EntityNotFoundException;
 
+import med.voll.api.adapter.web.dto.exception.ArgumentNotValidResponse;
 import med.voll.api.domain.exception.BusinessException;
 import med.voll.api.domain.exception.PacienteNotValidException;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import med.voll.api.adapter.web.dto.exception.ArgumentNotValidResponse;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 @RestControllerAdvice
 public class ErrorHandler {

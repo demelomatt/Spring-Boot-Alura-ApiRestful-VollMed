@@ -1,7 +1,6 @@
 package med.voll.api.domain.entity.medico;
 
 import jakarta.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -9,8 +8,6 @@ import lombok.NoArgsConstructor;
 
 import med.voll.api.application.dto.medico.MedicoDto;
 import med.voll.api.domain.entity.util.Endereco;
-import med.voll.api.adapter.web.dto.medico.MedicoAtualizarRequest;
-import med.voll.api.adapter.web.dto.medico.MedicoCadastrarRequest;
 
 @Getter
 @NoArgsConstructor

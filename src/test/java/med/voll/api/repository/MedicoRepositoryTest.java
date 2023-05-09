@@ -1,31 +1,28 @@
 package med.voll.api.repository;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjusters;
-
+import med.voll.api.adapter.web.dto.endereco.EnderecoRequest;
 import med.voll.api.application.dto.medico.MedicoDto;
 import med.voll.api.application.dto.paciente.PacienteDto;
+import med.voll.api.domain.entity.consulta.Consulta;
+import med.voll.api.domain.entity.medico.Especialidade;
+import med.voll.api.domain.entity.medico.Medico;
+import med.voll.api.domain.entity.paciente.Paciente;
 import med.voll.api.infra.repository.jpa.MedicoRepository;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 
-import static org.assertj.core.api.Assertions.*;
-
-import med.voll.api.domain.entity.consulta.Consulta;
-import med.voll.api.domain.entity.medico.Especialidade;
-import med.voll.api.domain.entity.medico.Medico;
-import med.voll.api.domain.entity.paciente.Paciente;
-import med.voll.api.adapter.web.dto.endereco.EnderecoRequest;
-import med.voll.api.adapter.web.dto.medico.MedicoCadastrarRequest;
-import med.voll.api.adapter.web.dto.paciente.PacienteCadastrarRequest;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

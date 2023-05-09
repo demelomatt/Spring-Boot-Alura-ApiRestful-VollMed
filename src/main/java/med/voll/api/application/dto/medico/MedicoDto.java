@@ -3,6 +3,7 @@ package med.voll.api.application.dto.medico;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
+
 import med.voll.api.adapter.web.dto.endereco.EnderecoRequest;
 import med.voll.api.adapter.web.dto.medico.MedicoAtualizarRequest;
 import med.voll.api.adapter.web.dto.medico.MedicoCadastrarRequest;

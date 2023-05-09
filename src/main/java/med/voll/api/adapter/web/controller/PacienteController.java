@@ -1,11 +1,17 @@
 package med.voll.api.adapter.web.controller;
 
-import java.net.URI;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-import med.voll.api.adapter.web.dto.medico.MedicoDetalheResponse;
+import med.voll.api.adapter.web.dto.paciente.PacienteAtualizarRequest;
+import med.voll.api.adapter.web.dto.paciente.PacienteCadastrarRequest;
+import med.voll.api.adapter.web.dto.paciente.PacienteDetalheResponse;
+import med.voll.api.adapter.web.dto.paciente.PacienteListarResponse;
 import med.voll.api.application.dto.paciente.PacienteDto;
+import med.voll.api.application.service.paciente.PacienteService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,16 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
-import med.voll.api.domain.entity.paciente.Paciente;
-import med.voll.api.adapter.web.dto.paciente.PacienteDetalheResponse;
-import med.voll.api.adapter.web.dto.paciente.PacienteAtualizarRequest;
-import med.voll.api.adapter.web.dto.paciente.PacienteCadastrarRequest;
-import med.voll.api.adapter.web.dto.paciente.PacienteListarResponse;
-import med.voll.api.application.service.paciente.PacienteService;
+import java.net.URI;
 
 @Tag(name = "Paciente")
 @RestController
@@ -56,6 +53,14 @@ public class PacienteController {
 
     }
 
+    @Operation(summary = "Deletar paciente")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        this.pacienteService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
     @Operation(summary = "Listar pacientes")
     @GetMapping
     public ResponseEntity<Page<PacienteListarResponse>> listar(Pageable paginacao) {
@@ -69,13 +74,6 @@ public class PacienteController {
         return ResponseEntity.ok(
                 new PacienteDetalheResponse(
                         this.pacienteService.detalhar(id)));
-    }
-
-    @Operation(summary = "Deletar paciente")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        this.pacienteService.deletar(id);
-        return ResponseEntity.noContent().build();
     }
 
 }

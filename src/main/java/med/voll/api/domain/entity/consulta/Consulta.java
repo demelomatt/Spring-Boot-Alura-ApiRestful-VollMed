@@ -1,14 +1,16 @@
 package med.voll.api.domain.entity.consulta;
 
-import java.time.LocalDateTime;
 import jakarta.persistence.*;
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import med.voll.api.application.dto.consulta.ConsultaDto;
-import med.voll.api.application.dto.consulta.ConsultaIdDto;
-import med.voll.api.domain.entity.paciente.Paciente;
 import med.voll.api.domain.entity.medico.Medico;
+import med.voll.api.domain.entity.paciente.Paciente;
+
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor

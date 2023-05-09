@@ -1,9 +1,11 @@
 package med.voll.api.service.consulta.validacoes;
 
-import java.time.LocalDateTime;
-
 import med.voll.api.application.dto.consulta.ConsultaIdDto;
 import med.voll.api.application.service.consulta.validacoes.ValidadorMedicoDisponivel;
+import med.voll.api.domain.entity.medico.Especialidade;
+import med.voll.api.domain.exception.BusinessException;
+import med.voll.api.infra.repository.jpa.ConsultaRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,12 +13,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import static org.junit.jupiter.api.Assertions.*;
 
-import med.voll.api.domain.entity.medico.Especialidade;
-import med.voll.api.adapter.web.dto.consulta.ConsultaAgendarRequest;
-import med.voll.api.domain.exception.BusinessException;
-import med.voll.api.infra.repository.jpa.ConsultaRepository;
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ValidadorMedicoDisponivelTest {
 

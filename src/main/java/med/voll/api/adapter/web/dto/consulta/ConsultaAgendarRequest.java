@@ -1,13 +1,12 @@
 package med.voll.api.adapter.web.dto.consulta;
 
-import java.time.LocalDateTime;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import med.voll.api.domain.entity.medico.Especialidade;
+
+import java.time.LocalDateTime;
 
 public record ConsultaAgendarRequest(
         @NotNull Long idPaciente,

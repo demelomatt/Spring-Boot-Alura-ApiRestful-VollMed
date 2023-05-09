@@ -1,14 +1,14 @@
 package med.voll.api.application.service.consulta.validacoes;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-
-import med.voll.api.application.dto.consulta.ConsultaIdDto;
-import org.springframework.stereotype.Service;
-
 import lombok.Getter;
 
+import med.voll.api.application.dto.consulta.ConsultaIdDto;
 import med.voll.api.domain.exception.BusinessException;
+
+import org.springframework.stereotype.Service;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 @Getter
 @Service

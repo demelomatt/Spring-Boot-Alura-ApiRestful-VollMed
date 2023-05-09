@@ -24,15 +24,12 @@ public class MedicoService {
         return new MedicoDto(this.medicoRepository.save(medico));
     }
 
+
     @Transactional
     public MedicoDto atualizar(MedicoDto dados) {
         Medico medico = this.medicoRepository.getReferenceById(dados.id());
         medico.atualizar(dados);
         return new MedicoDto(medico);
-    }
-
-    public Page<MedicoDto> listar(Pageable paginacao) {
-        return this.medicoRepository.findAllByAtivoTrue(paginacao).map(MedicoDto::new);
     }
 
     @Transactional
@@ -44,6 +41,11 @@ public class MedicoService {
         }
 
         throw new EntityNotFoundException("O médico informado não está ativo.");
+    }
+
+
+    public Page<MedicoDto> listar(Pageable paginacao) {
+        return this.medicoRepository.findAllByAtivoTrue(paginacao).map(MedicoDto::new);
     }
 
     public MedicoDto detalhar(Long id) {

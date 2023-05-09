@@ -1,16 +1,14 @@
 package med.voll.api.application.service.consulta.validacoes;
 
-import java.time.LocalDateTime;
-
+import lombok.Getter;
 import med.voll.api.application.dto.consulta.ConsultaIdDto;
 import med.voll.api.domain.exception.PacienteNotValidException;
+import med.voll.api.infra.repository.jpa.ConsultaRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.Getter;
-
-import med.voll.api.domain.exception.BusinessException;
-import med.voll.api.infra.repository.jpa.ConsultaRepository;
+import java.time.LocalDateTime;
 
 @Service
 public class ValidadorPacienteConsultaUnicaDia implements InterfaceValidadorAgendamento {

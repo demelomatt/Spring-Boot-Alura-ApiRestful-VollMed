@@ -2,6 +2,7 @@ package med.voll.api.application.dto.consulta;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
+
 import med.voll.api.adapter.web.dto.consulta.ConsultaAgendarRequest;
 import med.voll.api.adapter.web.dto.consulta.ConsultaAtualizarRequest;
 import med.voll.api.domain.entity.consulta.Consulta;

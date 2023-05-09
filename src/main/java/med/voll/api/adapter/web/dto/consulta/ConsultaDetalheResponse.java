@@ -1,14 +1,12 @@
 package med.voll.api.adapter.web.dto.consulta;
 
-import java.time.LocalDateTime;
-
 import jakarta.validation.Valid;
-import med.voll.api.adapter.web.dto.medico.MedicoDetalheResponse;
+
 import med.voll.api.adapter.web.dto.medico.MedicoListarResponse;
-import med.voll.api.adapter.web.dto.paciente.PacienteDetalheResponse;
 import med.voll.api.adapter.web.dto.paciente.PacienteListarResponse;
 import med.voll.api.application.dto.consulta.ConsultaDto;
-import med.voll.api.application.dto.consulta.ConsultaIdDto;
+
+import java.time.LocalDateTime;
 
 public record ConsultaDetalheResponse(
         Long id,

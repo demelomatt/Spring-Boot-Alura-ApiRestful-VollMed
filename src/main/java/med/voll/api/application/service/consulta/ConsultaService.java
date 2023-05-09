@@ -1,18 +1,11 @@
 package med.voll.api.application.service.consulta;
 
-import java.util.List;
-
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 import med.voll.api.application.dto.consulta.ConsultaDto;
 import med.voll.api.application.dto.consulta.ConsultaIdDto;
-import med.voll.api.domain.exception.PacienteNotValidException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
+import med.voll.api.application.service.consulta.validacoes.InterfaceValidadorAgendamento;
 import med.voll.api.domain.entity.consulta.Consulta;
 import med.voll.api.domain.entity.medico.Medico;
 import med.voll.api.domain.entity.paciente.Paciente;
@@ -20,7 +13,13 @@ import med.voll.api.domain.exception.BusinessException;
 import med.voll.api.infra.repository.jpa.ConsultaRepository;
 import med.voll.api.infra.repository.jpa.MedicoRepository;
 import med.voll.api.infra.repository.jpa.PacienteRepository;
-import med.voll.api.application.service.consulta.validacoes.InterfaceValidadorAgendamento;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ConsultaService {
@@ -37,6 +36,25 @@ public class ConsultaService {
     @Autowired
     private List<InterfaceValidadorAgendamento> validadores;
 
+    private Medico getMedico(ConsultaIdDto dados) {
+        if (dados.idMedico() != null) {
+            return  this.medicoRepository.findById(dados.idMedico()).orElseThrow(() -> new EntityNotFoundException("Esse médico não existe!"));
+        }
+
+        if (dados.especialidade() == null) {
+            throw new IllegalArgumentException("Necessário informar a especialidade do médico!");
+        }
+
+        Medico medico =  this.medicoRepository.getAvailableMedico(dados.especialidade(), dados.date());
+
+        if (medico == null) {
+            throw new BusinessException("Não há médicos dessa especialidade disponíveis para a data informada.");
+        }
+
+        return medico;
+
+    }
+
     @Transactional
         public ConsultaDto agendar(ConsultaIdDto dados) {
 
@@ -49,40 +67,6 @@ public class ConsultaService {
 
             return new ConsultaDto(consulta);
         }
-
-
-        private Medico getMedico(ConsultaIdDto dados) {
-            if (dados.idMedico() != null) {
-                return  this.medicoRepository.findById(dados.idMedico()).orElseThrow(() -> new EntityNotFoundException("Esse médico não existe!"));
-            }
-
-            if (dados.especialidade() == null) {
-                throw new IllegalArgumentException("Necessário informar a especialidade do médico!");
-            }
-
-            Medico medico =  this.medicoRepository.getAvailableMedico(dados.especialidade(), dados.date());
-
-            if (medico == null) {
-                throw new BusinessException("Não há médicos dessa especialidade disponíveis para a data informada.");
-            }
-
-            return medico;
-
-    }
-
-    public Page<ConsultaDto> listar(Pageable paginacao) {
-        return this.consultaRepository.findAllByAtivoTrue(paginacao).map(ConsultaDto::new);
-    }
-
-    public ConsultaDto detalhar(Long id) {
-        Consulta consulta = this.consultaRepository.getReferenceById(id);
-        if (consulta.isAtivo()) {
-            return new ConsultaDto(this.consultaRepository.getReferenceById(id));
-        }
-
-        throw new EntityNotFoundException("A consulta informada não está ativa.");
-
-    }
 
     @Transactional
     public ConsultaDto atualizar(ConsultaIdDto dados) {
@@ -106,4 +90,19 @@ public class ConsultaService {
 
         throw new EntityNotFoundException("A consulta informada não está ativa.");
     }
+
+    public Page<ConsultaDto> listar(Pageable paginacao) {
+        return this.consultaRepository.findAllByAtivoTrue(paginacao).map(ConsultaDto::new);
+    }
+
+    public ConsultaDto detalhar(Long id) {
+        Consulta consulta = this.consultaRepository.getReferenceById(id);
+        if (consulta.isAtivo()) {
+            return new ConsultaDto(this.consultaRepository.getReferenceById(id));
+        }
+
+        throw new EntityNotFoundException("A consulta informada não está ativa.");
+
+    }
+
 }

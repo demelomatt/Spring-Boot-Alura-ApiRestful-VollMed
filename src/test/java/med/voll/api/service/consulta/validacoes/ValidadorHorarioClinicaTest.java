@@ -1,18 +1,19 @@
 package med.voll.api.service.consulta.validacoes;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import med.voll.api.application.dto.consulta.ConsultaIdDto;
 import med.voll.api.application.service.consulta.validacoes.ValidadorHorarioClinica;
+import med.voll.api.domain.entity.medico.Especialidade;
+import med.voll.api.domain.exception.BusinessException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-import med.voll.api.domain.entity.medico.Especialidade;
-import med.voll.api.adapter.web.dto.consulta.ConsultaAgendarRequest;
-import med.voll.api.domain.exception.BusinessException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ValidadorHorarioClinicaTest {
 

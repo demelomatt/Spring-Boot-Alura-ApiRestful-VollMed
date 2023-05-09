@@ -1,12 +1,11 @@
 package med.voll.api.application.service.consulta.validacoes;
 
 import med.voll.api.application.dto.consulta.ConsultaIdDto;
-import med.voll.api.domain.exception.PacienteNotValidException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import med.voll.api.domain.exception.BusinessException;
 import med.voll.api.infra.repository.jpa.PacienteRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ValidadorPacienteAtivo implements InterfaceValidadorAgendamento{
