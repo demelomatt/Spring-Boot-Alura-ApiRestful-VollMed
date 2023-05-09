@@ -40,8 +40,8 @@ public class Consulta {
     }
 
     public void atualizar(ConsultaDto dados) {
-        this.medico = dados.medico();
-        this.data = dados.date();
+        this.medico = dados.medico() != null ? dados.medico() : this.medico;
+        this.data = dados.date() != null ? dados.date() : this.data;
     }
 
     public void excluir() {

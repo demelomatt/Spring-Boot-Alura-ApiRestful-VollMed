@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 
 import med.voll.api.application.dto.consulta.ConsultaDto;
 import med.voll.api.application.dto.consulta.ConsultaIdDto;
+import med.voll.api.domain.exception.PacienteNotValidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,11 +39,11 @@ public class ConsultaService {
 
     @Transactional
         public ConsultaDto agendar(ConsultaIdDto dados) {
+
             Paciente paciente = this.pacienteRepository.findById(dados.idPaciente()).orElseThrow(() -> new EntityNotFoundException("Esse paciente não existe!"));
             Medico medico = this.getMedico(dados);
 
-            this.validadores.forEach(v -> v.validar(dados));
-
+            this.validadores.forEach((v) -> v.validar(dados));
             Consulta consulta = new Consulta(paciente, medico, dados.date());
             this.consultaRepository.save(consulta);
 
@@ -83,16 +84,14 @@ public class ConsultaService {
 
     }
 
+    @Transactional
     public ConsultaDto atualizar(ConsultaIdDto dados) {
         Consulta consulta = this.consultaRepository.getReferenceById(dados.id());
-        Paciente paciente = this.pacienteRepository.getReferenceById(dados.idPaciente());
         Medico medico = this.getMedico(dados);
 
-        ConsultaIdDto consultaIdDto = new ConsultaIdDto(null, paciente.getId(), medico.getId(), dados.date(), medico.getEspecialidade());
+        this.validadores.forEach((v) -> v.validar(dados));
 
-        this.validadores.forEach(v -> v.validar(consultaIdDto));
-
-        consulta.atualizar(new ConsultaDto(dados.id(), paciente, medico, dados.date()));
+        consulta.atualizar(new ConsultaDto(dados.id(), null, medico, dados.date()));
 
         return new ConsultaDto(consulta);
     }
@@ -102,6 +101,7 @@ public class ConsultaService {
         Consulta consulta = this.consultaRepository.getReferenceById(id);
         if (consulta.isAtivo()) {
             consulta.excluir();
+            return;
         }
 
         throw new EntityNotFoundException("A consulta informada não está ativa.");

@@ -1,6 +1,7 @@
 package med.voll.api.application.service.consulta.validacoes;
 
 import med.voll.api.application.dto.consulta.ConsultaIdDto;
+import med.voll.api.domain.exception.PacienteNotValidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ public class ValidadorPacienteAtivo implements InterfaceValidadorAgendamento{
 
     @Override
     public void validar(ConsultaIdDto dados) {
+        if (dados.idPaciente() == null)
+            return;
 
         boolean isPacienteAtivo = this.pacienteRepository.findAtivoById(dados.idPaciente());
         if (!isPacienteAtivo) {

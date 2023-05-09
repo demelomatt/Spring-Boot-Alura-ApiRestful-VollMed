@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.persistence.EntityNotFoundException;
 
 import med.voll.api.domain.exception.BusinessException;
+import med.voll.api.domain.exception.PacienteNotValidException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,11 @@ public class ErrorHandler {
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<String> handleBusiness(BusinessException exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
+    }
+
+    @ExceptionHandler(PacienteNotValidException.class)
+    public ResponseEntity<String> handlePaciente(PacienteNotValidException exception) {
         return ResponseEntity.badRequest().body(exception.getMessage());
     }
 

@@ -18,6 +18,9 @@ public class ValidadorHorarioAntecedencia implements InterfaceValidadorAgendamen
 
     @Override
     public void validar(ConsultaIdDto dados) {
+        if (dados.date() == null)
+                return;
+
         LocalDateTime dataConsulta = dados.date();
         LocalDateTime dataAtual = LocalDateTime.now();
         Long diffMin = Duration.between(dataAtual, dataConsulta).toMinutes() + 1;

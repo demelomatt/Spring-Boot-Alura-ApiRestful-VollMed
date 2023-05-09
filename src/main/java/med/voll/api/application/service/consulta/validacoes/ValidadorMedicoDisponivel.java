@@ -15,6 +15,9 @@ public class ValidadorMedicoDisponivel implements InterfaceValidadorAgendamento{
 
     @Override
     public void validar(ConsultaIdDto dados) {
+        if (dados.idMedico() == null || dados.date() == null)
+            return;
+
         boolean medicoHasConsulta = this.consultaRepository.existsByMedicoIdAndData(dados.idMedico(), dados.date());
         if (medicoHasConsulta) {
             throw new BusinessException("Médico já possui outra consulta agendada nesse mesmo horário!");

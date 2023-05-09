@@ -20,6 +20,9 @@ public class ValidadorHorarioClinica implements InterfaceValidadorAgendamento {
 
     @Override
     public void validar(ConsultaIdDto dados) {
+        if (dados.date() == null)
+            return;
+
         LocalDateTime dataConsulta = dados.date();
         LocalTime horarioConsulta = dataConsulta.toLocalTime();
 

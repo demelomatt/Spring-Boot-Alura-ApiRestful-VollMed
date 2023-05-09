@@ -42,6 +42,7 @@ public class PacienteService {
         Paciente paciente = this.pacienteRepository.getReferenceById(id);
         if (paciente.isAtivo()) {
             paciente.excluir();
+            return;
         }
 
         throw new EntityNotFoundException("O paciente informado não está ativo.");

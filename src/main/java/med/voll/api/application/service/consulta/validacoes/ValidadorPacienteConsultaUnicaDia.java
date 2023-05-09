@@ -3,6 +3,7 @@ package med.voll.api.application.service.consulta.validacoes;
 import java.time.LocalDateTime;
 
 import med.voll.api.application.dto.consulta.ConsultaIdDto;
+import med.voll.api.domain.exception.PacienteNotValidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +23,15 @@ public class ValidadorPacienteConsultaUnicaDia implements InterfaceValidadorAgen
 
     @Override
     public void validar(ConsultaIdDto dados) {
+        if (dados.date() == null || dados.idPaciente() == null)
+            return;
+
         LocalDateTime primeiroHorario = dados.date().withHour(START_HOUR);
         LocalDateTime ultimoHorario = dados.date().withHour(END_HOUR);
 
         Boolean pacientePossuiOutraConsultaNoDia = this.consultaRepository.existsByPacienteIdAndDataBetween(dados.idPaciente(), primeiroHorario, ultimoHorario);
         if (pacientePossuiOutraConsultaNoDia) {
-            throw new BusinessException("Paciente já possui uma consulta agendada nesse dia!");
+            throw new PacienteNotValidException("Paciente já possui uma consulta agendada nesse dia!");
         }
     }
 }

@@ -40,6 +40,7 @@ public class MedicoService {
         Medico medico = this.medicoRepository.getReferenceById(id);
         if (medico.isAtivo()) {
             medico.excluir();
+            return;
         }
 
         throw new EntityNotFoundException("O médico informado não está ativo.");
