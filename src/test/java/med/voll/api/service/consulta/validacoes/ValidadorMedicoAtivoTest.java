@@ -1,43 +1,53 @@
 package med.voll.api.service.consulta.validacoes;
 
+import med.voll.api.application.dto.consulta.ConsultaIdDto;
+import med.voll.api.application.service.consulta.validacoes.ValidadorMedicoAtivo;
+import med.voll.api.domain.entity.medico.Especialidade;
+import med.voll.api.domain.exception.BusinessException;
+import med.voll.api.infra.repository.jpa.MedicoRepository;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+
 import java.time.LocalDateTime;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.beans.factory.annotation.Autowired;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
-import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.dto.consulta.ConsultaDto;
-import med.voll.api.exception.BusinessException;
-import med.voll.api.repository.MedicoRepository;
-
-@SpringBootTest
 class ValidadorMedicoAtivoTest {
 
-    @Autowired
-    private ValidadorMedicoAtivo service;
-
-    private ConsultaDto dados;
-
-    @MockBean
+    @Mock
     private MedicoRepository medicoRepositoryMock;
 
+    @InjectMocks
+    private ValidadorMedicoAtivo service;
+
+    private ConsultaIdDto dados;
+
+    @BeforeEach
+    void init() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
-    void itShouldNotThrowExceptionWhenIdNull() {
+    @DisplayName("Não deveria lançar uma exceção quando não for informado um médico.")
+    void itShouldNotThrowExceptionGivenMedicoIdNull() {
         Long idMedico = null;
-        this.dados = new ConsultaDto(1l, idMedico, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaIdDto(1l, 1l, idMedico, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
 
         assertDoesNotThrow(() -> this.service.validar(this.dados));
     }
 
     @Test
-    void itShouldNotThrowExceptionWhenAtivoTrue() {
+    @DisplayName("Não deveria lançar uma exceção quando o médico informado estiver ativo.")
+    void itShouldNotThrowExceptionGivenMedicoAtivoTrue() {
         Long idMedico = 1l;
-        this.dados = new ConsultaDto(1l, idMedico, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaIdDto(1l, 1l, idMedico, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
 
         Mockito.when(this.medicoRepositoryMock.findAtivoById(idMedico))
                 .thenReturn(true);
@@ -46,9 +56,10 @@ class ValidadorMedicoAtivoTest {
     }
 
     @Test
-    void itShouldThrowExceptionWhenAtivoFalse() {
+    @DisplayName("Deveria lançar uma exceção quando o médico informado não estiver ativo.")
+    void itShouldThrowExceptionGivenMedicoAtivoFalse() {
         Long idMedico = 1l;
-        this.dados = new ConsultaDto(1l, idMedico, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaIdDto(1l, 1l, idMedico, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
 
         Mockito.when(this.medicoRepositoryMock.findAtivoById(idMedico))
                 .thenReturn(false);

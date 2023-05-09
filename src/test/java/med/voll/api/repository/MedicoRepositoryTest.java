@@ -1,28 +1,28 @@
 package med.voll.api.repository;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjusters;
+import med.voll.api.adapter.web.dto.endereco.EnderecoRequest;
+import med.voll.api.application.dto.medico.MedicoDto;
+import med.voll.api.application.dto.paciente.PacienteDto;
+import med.voll.api.domain.entity.consulta.Consulta;
+import med.voll.api.domain.entity.medico.Especialidade;
+import med.voll.api.domain.entity.medico.Medico;
+import med.voll.api.domain.entity.paciente.Paciente;
+import med.voll.api.infra.repository.jpa.MedicoRepository;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.assertj.core.api.Assertions.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 
-import med.voll.api.domain.consulta.Consulta;
-import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.domain.medico.Medico;
-import med.voll.api.domain.paciente.Paciente;
-import med.voll.api.dto.endereco.EnderecoDto;
-import med.voll.api.dto.medico.MedicoDto;
-import med.voll.api.dto.paciente.PacienteDto;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -36,8 +36,8 @@ class MedicoRepositoryTest {
     private TestEntityManager em;
 
     @Test
-    @DisplayName("Deveria devolver null quando unico medico cadastrado nao esta disponivel na data")
-    void itShouldReturnNullWhenMedicoHasConsulta() {
+    @DisplayName("Deveria retornar null quando não há nenhum médico disponível na data.")
+    void itShouldReturnNullGivenMedicoHasConsulta() {
 
         // Given
         Medico medico = createMedico("Medico", "medico@voll.med", "1199998888" ,"123456", Especialidade.CARDIOLOGIA);
@@ -52,8 +52,8 @@ class MedicoRepositoryTest {
     }
 
     @Test
-    @DisplayName("Deveria devolver Medico quando ele estiver disponível na data")
-    void itShouldReturnMedicoWhenMedicoAvailable() {
+    @DisplayName("Deveria retornar um Médico quando ele estiver disponível na data.")
+    void itShouldReturnMedicoGivenMedicoAvailable() {
 
         // Given
         Medico medico = createMedico("Medico", "medico@voll.med", "1199998888" ,"123456", Especialidade.CARDIOLOGIA);
@@ -71,8 +71,8 @@ class MedicoRepositoryTest {
                 .atTime(10, 0);
     }
 
-    private EnderecoDto dtoEndereco() {
-        return new EnderecoDto(
+    private EnderecoRequest dtoEndereco() {
+        return new EnderecoRequest(
                 "rua xpto",
                 "bairro",
                 "00000000",
@@ -85,6 +85,7 @@ class MedicoRepositoryTest {
 
     private MedicoDto dtoMedico(String nome, String email, String telefone, String crm, Especialidade especialidade) {
         return new MedicoDto(
+                1l,
                 nome,
                 email,
                 telefone,
@@ -97,6 +98,7 @@ class MedicoRepositoryTest {
 
     private PacienteDto dtoPaciente(String nome, String email, String telefone, String cpf) {
         return new PacienteDto(
+                1l,
                 nome,
                 email,
                 telefone,
@@ -106,13 +108,13 @@ class MedicoRepositoryTest {
     }
 
     private Medico createMedico(String nome, String email, String telefone, String crm, Especialidade especialidade) {
-        Medico medico = new Medico(dtoMedico(nome, email, telefone, crm, especialidade));
+        Medico medico = new Medico(this.dtoMedico(nome, email, telefone, crm, especialidade));
         em.persist(medico);
         return medico;
     }
 
     private Paciente createPaciente(String nome, String email, String telefone, String cpf) {
-        Paciente paciente = new Paciente(dtoPaciente(nome, email, telefone, cpf));
+        Paciente paciente = new Paciente(this.dtoPaciente(nome, email, telefone, cpf));
         em.persist(paciente);
         return paciente;
     }
@@ -122,6 +124,4 @@ class MedicoRepositoryTest {
         em.persist(consulta);
         return consulta;
     }
-
-
 }

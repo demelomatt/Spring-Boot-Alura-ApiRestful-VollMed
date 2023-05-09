@@ -1,10 +1,16 @@
 package med.voll.api.controller;
 
-import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.dto.consulta.ConsultaDetalheDto;
-import med.voll.api.dto.consulta.ConsultaDto;
-import med.voll.api.service.consulta.ConsultaService;
-import org.junit.jupiter.api.BeforeEach;
+import med.voll.api.adapter.web.dto.consulta.ConsultaAgendarRequest;
+import med.voll.api.adapter.web.dto.consulta.ConsultaDetalheResponse;
+import med.voll.api.adapter.web.dto.medico.MedicoListarResponse;
+import med.voll.api.adapter.web.dto.paciente.PacienteListarResponse;
+import med.voll.api.application.dto.consulta.ConsultaDto;
+import med.voll.api.application.service.consulta.ConsultaService;
+import med.voll.api.domain.entity.consulta.Consulta;
+import med.voll.api.domain.entity.medico.Especialidade;
+import med.voll.api.domain.entity.medico.Medico;
+import med.voll.api.domain.entity.paciente.Paciente;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,8 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @SpringBootTest
@@ -35,10 +40,10 @@ class ConsultaControllerTest {
     private MockMvc mvc;
 
     @Autowired
-    private JacksonTester<ConsultaDto> consultaJson;
+    private JacksonTester<ConsultaAgendarRequest> consultaJson;
 
     @Autowired
-    private JacksonTester<ConsultaDetalheDto> consultaDetalheJson;
+    private JacksonTester<ConsultaDetalheResponse> consultaDetalheJson;
 
     @MockBean
     private ConsultaService consultaService;
@@ -46,43 +51,47 @@ class ConsultaControllerTest {
     @Test
     @DisplayName("Deveria retornar código 400 quando body está vazio")
     @WithMockUser
-    void itShouldReturnBadRequestWhenBodyEmpty() throws Exception {
+    void itShouldReturnBadRequestGivenBodyEmpty() throws Exception {
         MockHttpServletResponse response = this.mvc.perform(post("/consultas"))
                  .andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
-    @DisplayName("Deveria retornar código 200 quando body é válido")
+    @DisplayName("Deveria retornar código 201 quando body é válido")
     @WithMockUser
-    void itShouldReturnOkWhenBodyIsValid() throws Exception {
+    void itShouldReturnCreatedGivenBodyIsValid() throws Exception {
+
         // Given
         LocalDateTime date =  LocalDateTime.now().plusHours(1);
-        ConsultaDto consultaDto = new ConsultaDto(1l, 1l,date, Especialidade.CARDIOLOGIA);
-        ConsultaDetalheDto consultaDetalheDto = new ConsultaDetalheDto(null, 1l,1l, date);
+        Medico medico = new Medico();
+        Paciente paciente = new Paciente();
+        Consulta consulta = new Consulta(1l, paciente, medico, date, true);
 
-        Mockito.when(this.consultaService.agendar(Mockito.any())).thenReturn(consultaDetalheDto);
+        ConsultaAgendarRequest consultaAgendarRequest = new ConsultaAgendarRequest(1l, 1l,date, Especialidade.CARDIOLOGIA);
+        ConsultaDetalheResponse consultaDetalheResponse = new ConsultaDetalheResponse(1l, new MedicoListarResponse(medico),new PacienteListarResponse(paciente), date);
+
+        Mockito.when(this.consultaService.agendar(Mockito.any())).thenReturn(new ConsultaDto(consulta));
 
         // When
         MockHttpServletResponse response = this.mvc.perform(
                 post("/consultas")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(this.consultaJson
-                                .write(consultaDto)
+                                .write(consultaAgendarRequest)
                                 .getJson())
                 )
                 .andReturn().getResponse();
 
 
         String jsonResponse =  this.consultaDetalheJson
-                .write(consultaDetalheDto)
+                .write(consultaDetalheResponse)
                 .getJson();
 
         // Then
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.getContentAsString()).isEqualTo(jsonResponse);
 
     }
-
 
 }

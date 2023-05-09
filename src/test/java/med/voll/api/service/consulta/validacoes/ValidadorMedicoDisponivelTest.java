@@ -1,38 +1,43 @@
 package med.voll.api.service.consulta.validacoes;
 
-import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.dto.consulta.ConsultaDto;
-import med.voll.api.exception.BusinessException;
-import med.voll.api.repository.ConsultaRepository;
+import med.voll.api.application.dto.consulta.ConsultaIdDto;
+import med.voll.api.application.service.consulta.validacoes.ValidadorMedicoDisponivel;
+import med.voll.api.domain.entity.medico.Especialidade;
+import med.voll.api.domain.exception.BusinessException;
+import med.voll.api.infra.repository.jpa.ConsultaRepository;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
 class ValidadorMedicoDisponivelTest {
 
-    @Autowired
+    @Mock
+    private ConsultaRepository consultaRepositoryMock;
+
+    @InjectMocks
     private ValidadorMedicoDisponivel service;
 
-    private ConsultaDto dados;
-
-    @MockBean
-    private ConsultaRepository consultaRepositoryMock;
+    private ConsultaIdDto dados;
 
     @BeforeEach
     void init() {
-        this.dados = new ConsultaDto(1l,1l, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
+        MockitoAnnotations.initMocks(this);
+        this.dados = new ConsultaIdDto(1l, 1l,1l, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
     }
 
     @Test
-    void itShouldThrowExceptionWhenHasConsulta() {
+    @DisplayName("Deveria lançar uma exceção quando o médico informado já tiver uma consulta na data e horário informados.")
+    void itShouldThrowExceptionGivenMedicoHasConsulta() {
         Mockito.when(this.consultaRepositoryMock.existsByMedicoIdAndData(this.dados.idMedico(), this.dados.date()))
                 .thenReturn(true);
 
@@ -40,7 +45,8 @@ class ValidadorMedicoDisponivelTest {
     }
 
     @Test
-    void itShouldNotThrowExceptionWhenDoesntHasConsulta() {
+    @DisplayName("Não deveria lançar uma exceção quando o médico informado não tiver uma consulta na data e horário informados.")
+    void itShouldNotThrowExceptionGivenMedicoDoesntHaveConsulta() {
         Mockito.when(this.consultaRepositoryMock.existsByMedicoIdAndData(this.dados.idMedico(), this.dados.date()))
                 .thenReturn(false);
 

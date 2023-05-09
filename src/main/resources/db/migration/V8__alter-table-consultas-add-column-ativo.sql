@@ -1,0 +1,1 @@
+alter table consultas add ativo tinyint unsigned not null default 1;

@@ -1,41 +1,45 @@
 package med.voll.api.service.consulta.validacoes;
 
-import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.dto.consulta.ConsultaDto;
-import med.voll.api.exception.BusinessException;
-import med.voll.api.repository.PacienteRepository;
+import med.voll.api.application.dto.consulta.ConsultaIdDto;
+import med.voll.api.application.service.consulta.validacoes.ValidadorPacienteAtivo;
+import med.voll.api.domain.entity.medico.Especialidade;
+import med.voll.api.domain.exception.BusinessException;
+import med.voll.api.infra.repository.jpa.PacienteRepository;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
 class ValidadorPacienteAtivoTest {
 
-    @Autowired
-    private ValidadorPacienteAtivo service;
-
-    private ConsultaDto dados;
-
-    @MockBean
+    @Mock
     private PacienteRepository pacienteRepositoryMock;
 
+    @InjectMocks
+    private ValidadorPacienteAtivo service;
+
     private Long idPaciente;
+    private ConsultaIdDto dados;
 
     @BeforeEach
     void init() {
+        MockitoAnnotations.initMocks(this);
         this.idPaciente = 1l;
-        this.dados = new ConsultaDto(idPaciente, 1l, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaIdDto(1l, idPaciente, 1l, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
     }
 
     @Test
-    void itShouldNotThrowExceptionWhenAtivoTrue() {
+    @DisplayName("Não deveria lançar uma exceção quando o paciente estiver ativo.")
+    void itShouldNotThrowExceptionGivenPacienteAtivoTrue() {
         Mockito.when(this.pacienteRepositoryMock.findAtivoById(this.idPaciente))
                 .thenReturn(true);
 
@@ -43,7 +47,8 @@ class ValidadorPacienteAtivoTest {
     }
 
     @Test
-    void itShouldThrowExceptionWhenAtivoFalse() {
+    @DisplayName("Deveria lançar uma exceção quando o paciente não estiver ativo.")
+    void itShouldThrowExceptionGivenPacienteAtivoFalse() {
         Mockito.when(this.pacienteRepositoryMock.findAtivoById(this.idPaciente))
                 .thenReturn(false);
 
