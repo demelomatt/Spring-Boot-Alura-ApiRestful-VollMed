@@ -2,6 +2,8 @@ package med.voll.api.service.consulta.validacoes;
 
 import java.time.LocalDateTime;
 
+import med.voll.api.application.dto.consulta.ConsultaIdDto;
+import med.voll.api.application.service.consulta.validacoes.ValidadorPacienteAtivo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,10 +13,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.*;
 
-import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.dto.consulta.ConsultaAgendarRequest;
-import med.voll.api.exception.BusinessException;
-import med.voll.api.repository.PacienteRepository;
+import med.voll.api.domain.entity.medico.Especialidade;
+import med.voll.api.adapter.web.dto.consulta.ConsultaAgendarRequest;
+import med.voll.api.domain.exception.BusinessException;
+import med.voll.api.infra.repository.jpa.PacienteRepository;
 
 class ValidadorPacienteAtivoTest {
 
@@ -25,13 +27,13 @@ class ValidadorPacienteAtivoTest {
     private ValidadorPacienteAtivo service;
 
     private Long idPaciente;
-    private ConsultaAgendarRequest dados;
+    private ConsultaIdDto dados;
 
     @BeforeEach
     void init() {
         MockitoAnnotations.initMocks(this);
         this.idPaciente = 1l;
-        this.dados = new ConsultaAgendarRequest(idPaciente, 1l, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaIdDto(1l, idPaciente, 1l, LocalDateTime.now(), Especialidade.CARDIOLOGIA);
     }
 
     @Test

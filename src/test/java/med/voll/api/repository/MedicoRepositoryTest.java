@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 
+import med.voll.api.application.dto.medico.MedicoDto;
+import med.voll.api.application.dto.paciente.PacienteDto;
+import med.voll.api.infra.repository.jpa.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,13 +19,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
-import med.voll.api.domain.consulta.Consulta;
-import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.domain.medico.Medico;
-import med.voll.api.domain.paciente.Paciente;
-import med.voll.api.dto.endereco.EnderecoRequest;
-import med.voll.api.dto.medico.MedicoCadastrarRequest;
-import med.voll.api.dto.paciente.PacienteCadastrarRequest;
+import med.voll.api.domain.entity.consulta.Consulta;
+import med.voll.api.domain.entity.medico.Especialidade;
+import med.voll.api.domain.entity.medico.Medico;
+import med.voll.api.domain.entity.paciente.Paciente;
+import med.voll.api.adapter.web.dto.endereco.EnderecoRequest;
+import med.voll.api.adapter.web.dto.medico.MedicoCadastrarRequest;
+import med.voll.api.adapter.web.dto.paciente.PacienteCadastrarRequest;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -83,8 +86,9 @@ class MedicoRepositoryTest {
         );
     }
 
-    private MedicoCadastrarRequest dtoMedico(String nome, String email, String telefone, String crm, Especialidade especialidade) {
-        return new MedicoCadastrarRequest(
+    private MedicoDto dtoMedico(String nome, String email, String telefone, String crm, Especialidade especialidade) {
+        return new MedicoDto(
+                1l,
                 nome,
                 email,
                 telefone,
@@ -95,8 +99,9 @@ class MedicoRepositoryTest {
 
     }
 
-    private PacienteCadastrarRequest dtoPaciente(String nome, String email, String telefone, String cpf) {
-        return new PacienteCadastrarRequest(
+    private PacienteDto dtoPaciente(String nome, String email, String telefone, String cpf) {
+        return new PacienteDto(
+                1l,
                 nome,
                 email,
                 telefone,
@@ -106,13 +111,13 @@ class MedicoRepositoryTest {
     }
 
     private Medico createMedico(String nome, String email, String telefone, String crm, Especialidade especialidade) {
-        Medico medico = new Medico(dtoMedico(nome, email, telefone, crm, especialidade));
+        Medico medico = new Medico(this.dtoMedico(nome, email, telefone, crm, especialidade));
         em.persist(medico);
         return medico;
     }
 
     private Paciente createPaciente(String nome, String email, String telefone, String cpf) {
-        Paciente paciente = new Paciente(dtoPaciente(nome, email, telefone, cpf));
+        Paciente paciente = new Paciente(this.dtoPaciente(nome, email, telefone, cpf));
         em.persist(paciente);
         return paciente;
     }
@@ -122,6 +127,4 @@ class MedicoRepositoryTest {
         em.persist(consulta);
         return consulta;
     }
-
-
 }

@@ -2,6 +2,13 @@ package med.voll.api.controller;
 
 import java.time.LocalDateTime;
 
+import med.voll.api.adapter.web.dto.medico.MedicoListarResponse;
+import med.voll.api.adapter.web.dto.paciente.PacienteListarResponse;
+import med.voll.api.application.dto.consulta.ConsultaDto;
+import med.voll.api.application.dto.consulta.ConsultaIdDto;
+import med.voll.api.domain.entity.consulta.Consulta;
+import med.voll.api.domain.entity.medico.Medico;
+import med.voll.api.domain.entity.paciente.Paciente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,10 +28,10 @@ import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.*;
 
-import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.dto.consulta.ConsultaDetalheResponse;
-import med.voll.api.dto.consulta.ConsultaAgendarRequest;
-import med.voll.api.service.consulta.ConsultaService;
+import med.voll.api.domain.entity.medico.Especialidade;
+import med.voll.api.adapter.web.dto.consulta.ConsultaDetalheResponse;
+import med.voll.api.adapter.web.dto.consulta.ConsultaAgendarRequest;
+import med.voll.api.application.service.consulta.ConsultaService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -53,22 +60,27 @@ class ConsultaControllerTest {
     }
 
     @Test
-    @DisplayName("Deveria retornar código 200 quando body é válido")
+    @DisplayName("Deveria retornar código 201 quando body é válido")
     @WithMockUser
-    void itShouldReturnOkGivenBodyIsValid() throws Exception {
+    void itShouldReturnCreatedGivenBodyIsValid() throws Exception {
+
         // Given
         LocalDateTime date =  LocalDateTime.now().plusHours(1);
-        ConsultaAgendarRequest consultaDto = new ConsultaAgendarRequest(1l, 1l,date, Especialidade.CARDIOLOGIA);
-        ConsultaDetalheResponse consultaDetalheResponse = new ConsultaDetalheResponse(null, 1l,1l, date);
+        Medico medico = new Medico();
+        Paciente paciente = new Paciente();
+        Consulta consulta = new Consulta(1l, paciente, medico, date, true);
 
-        Mockito.when(this.consultaService.agendar(Mockito.any())).thenReturn(consultaDetalheResponse);
+        ConsultaAgendarRequest consultaAgendarRequest = new ConsultaAgendarRequest(1l, 1l,date, Especialidade.CARDIOLOGIA);
+        ConsultaDetalheResponse consultaDetalheResponse = new ConsultaDetalheResponse(1l, new MedicoListarResponse(medico),new PacienteListarResponse(paciente), date);
+
+        Mockito.when(this.consultaService.agendar(Mockito.any())).thenReturn(new ConsultaDto(consulta));
 
         // When
         MockHttpServletResponse response = this.mvc.perform(
                 post("/consultas")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(this.consultaJson
-                                .write(consultaDto)
+                                .write(consultaAgendarRequest)
                                 .getJson())
                 )
                 .andReturn().getResponse();
@@ -79,7 +91,7 @@ class ConsultaControllerTest {
                 .getJson();
 
         // Then
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.getContentAsString()).isEqualTo(jsonResponse);
 
     }

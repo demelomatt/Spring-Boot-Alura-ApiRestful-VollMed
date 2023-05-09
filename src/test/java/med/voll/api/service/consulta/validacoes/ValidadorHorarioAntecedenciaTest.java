@@ -2,14 +2,16 @@ package med.voll.api.service.consulta.validacoes;
 
 import java.time.LocalDateTime;
 
+import med.voll.api.application.dto.consulta.ConsultaIdDto;
+import med.voll.api.application.service.consulta.validacoes.ValidadorHorarioAntecedencia;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import med.voll.api.domain.medico.Especialidade;
-import med.voll.api.dto.consulta.ConsultaAgendarRequest;
-import med.voll.api.exception.BusinessException;
+import med.voll.api.domain.entity.medico.Especialidade;
+import med.voll.api.adapter.web.dto.consulta.ConsultaAgendarRequest;
+import med.voll.api.domain.exception.BusinessException;
 
 public class ValidadorHorarioAntecedenciaTest {
 
@@ -17,7 +19,7 @@ public class ValidadorHorarioAntecedenciaTest {
 
     private LocalDateTime horarioAtual;
     private LocalDateTime futureDate;
-    private ConsultaAgendarRequest dados;
+    private ConsultaIdDto dados;
 
     @BeforeEach
     void init() {
@@ -30,7 +32,7 @@ public class ValidadorHorarioAntecedenciaTest {
     void itShouldThrowExceptionGivenHorarioLesser() {
         int minutosAntecedencia = this.service.getMINUTES() - 1;
         this.futureDate = this.horarioAtual.plusMinutes(minutosAntecedencia);
-        this.dados = new ConsultaAgendarRequest(0l,0l,this.futureDate, Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaIdDto(0l, 0l,0l,this.futureDate, Especialidade.CARDIOLOGIA);
         assertThrows(BusinessException.class, () -> this.service.validar(this.dados));
     }
 
@@ -39,7 +41,7 @@ public class ValidadorHorarioAntecedenciaTest {
     void itShouldNotThrowExceptionGivenHorarioEquals() {
         int minutosAntecedencia = this.service.getMINUTES();
         this.futureDate = this.horarioAtual.plusMinutes(minutosAntecedencia);
-        this.dados = new ConsultaAgendarRequest(0l,0l,this.futureDate, Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaIdDto(0l,0l,0l,this.futureDate, Especialidade.CARDIOLOGIA);
         assertDoesNotThrow(() -> this.service.validar(this.dados));
     }
 
@@ -48,7 +50,7 @@ public class ValidadorHorarioAntecedenciaTest {
     void itShouldNotThrowExceptionGivenHorarioGreater() {
         int minutosAntecedencia = this.service.getMINUTES() + 1;
         this.futureDate = this.horarioAtual.plusMinutes(minutosAntecedencia);
-        this.dados = new ConsultaAgendarRequest(0l,0l,this.futureDate, Especialidade.CARDIOLOGIA);
+        this.dados = new ConsultaIdDto(0l, 0l,0l,this.futureDate, Especialidade.CARDIOLOGIA);
         assertDoesNotThrow(() -> this.service.validar(this.dados));
     }
 
