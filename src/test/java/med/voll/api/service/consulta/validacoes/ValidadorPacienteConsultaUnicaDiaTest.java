@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import med.voll.api.application.dto.consulta.ConsultaIdDto;
 import med.voll.api.application.service.consulta.validacoes.ValidadorPacienteConsultaUnicaDia;
+import med.voll.api.domain.exception.PacienteNotValidException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,7 +47,7 @@ class ValidadorPacienteConsultaUnicaDiaTest {
         Mockito.when(this.consultaRepositoryMock.existsByPacienteIdAndDataBetween(1l, this.primeiroHorario, this.ultimoHorario))
                 .thenReturn(true);
 
-        assertThrows(BusinessException.class, () -> this.service.validar(this.dados));
+        assertThrows(PacienteNotValidException.class, () -> this.service.validar(this.dados));
     }
 
     @Test
